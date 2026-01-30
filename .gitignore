@@ -1,0 +1,18 @@
+# Build folders
+build/
+*.o
+*.obj
+
+# Qt specific
+*.pro.user
+*.autosave
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
