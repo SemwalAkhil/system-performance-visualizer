@@ -29,6 +29,12 @@ All viva-related questions and answers are maintained here:
 
 - [Viva Notes](docs/viva/README.md)
 
+## Development Notes
+
+Development rules and workflow are documented here:
+
+- [Development Rules](docs/development/README.md)
+
 ## Status
 
 🚧 In development

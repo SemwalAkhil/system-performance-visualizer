@@ -10,9 +10,3 @@ Sections:
 - [Linux /proc filesystem](linux_procfs.md)
 - [Design decisions & trade-offs](design_decisions.md)
 - [Common Questions](common_questions.md)
-
-## Development Notes
-
-Development rules and workflow are documented here:
-
-- [Development Rules](docs/development/README.md)
