@@ -25,6 +25,14 @@
     - [Explanation](#explanation-5)
     - [Academic justification](#academic-justification)
     - [One-line viva answer](#one-line-viva-answer-5)
+  - [Q: How is CPU usage calculated in this project?](#q-how-is-cpu-usage-calculated-in-this-project)
+    - [Explanation](#explanation-6)
+    - [Data source](#data-source)
+    - [Formula used](#formula-used)
+    - [Why delta-based calculation is required](#why-delta-based-calculation-is-required)
+    - [Implementation detail](#implementation-detail)
+    - [Why CPU usage sometimes shows 0%](#why-cpu-usage-sometimes-shows-0)
+    - [One-line viva answer](#one-line-viva-answer-6)
 
 
 ## Q: What is the /proc filesystem?
@@ -213,3 +221,77 @@ Therefore, system monitoring results are valid.
 ### One-line viva answer
 
 > “WSL is acceptable because it uses a real Linux kernel and exposes `/proc` like native Linux.”
+
+---
+
+## Q: How is CPU usage calculated in this project?
+
+**A:**  
+CPU usage is calculated using **delta-based sampling** from the `/proc/stat` file.
+
+---
+
+### Explanation
+- `/proc/stat` provides cumulative CPU time values since system boot
+- A single reading cannot represent CPU usage
+- Two readings are required at different times
+- CPU usage is computed from the difference between these readings
+
+The project reads CPU statistics periodically and calculates usage based on how much time the CPU spent in idle versus active states.
+
+---
+
+### Data source
+The first line of `/proc/stat` is used:
+```
+
+cpu  user nice system idle iowait irq softirq steal
+
+```
+
+From this:
+- **Idle time** = `idle + iowait`
+- **Total time** = sum of all fields
+
+---
+
+### Formula used
+```
+
+CPU Usage (%) = (1 - idle_delta / total_delta) × 100
+
+```
+
+Where:
+- `idle_delta` = change in idle time
+- `total_delta` = change in total CPU time
+
+---
+
+### Why delta-based calculation is required
+- Values in `/proc/stat` are cumulative
+- CPU usage represents activity **over time**
+- Delta-based calculation reflects real usage accurately
+
+---
+
+### Implementation detail
+- Previous CPU values (`prevTotal`, `prevIdle`) are stored as class members
+- On the first call, CPU usage is returned as `0%`
+- Subsequent calls return real usage values
+
+This design is GUI-safe and avoids blocking delays.
+
+---
+
+### Why CPU usage sometimes shows 0%
+- The system may be idle
+- The sampling interval may be short
+- Minimal background CPU activity in WSL
+
+This behavior is expected and correct.
+
+---
+
+### One-line viva answer
+> “CPU usage is calculated using delta-based sampling from `/proc/stat` by comparing idle and total CPU time differences.”
