@@ -369,3 +369,113 @@ If a PAT is exposed, it must be revoked immediately from GitHub settings.
 ### One-line viva answer
 
 > “If a PAT is exposed, it should be revoked immediately and replaced with a new one.”
+
+## Development Workflow & Version Control (Viva Notes)
+
+## Q: How did you work on the project from multiple systems?
+
+**A:**  
+The project was developed using a GitHub-centric workflow, where GitHub acts as the single source of truth.
+
+---
+
+### Explanation
+
+- The repository is hosted on GitHub
+- The project is cloned on both home and college systems
+- Changes are synchronized using Git commit and push operations
+- Updates from other systems are fetched using Git pull
+
+This allows seamless development from multiple locations.
+
+---
+
+### One-line viva answer
+
+> “I used GitHub as the central repository and synchronized work using Git commits and pulls.”
+
+---
+
+## Q: Why was GitHub chosen instead of file transfer methods?
+
+**A:**  
+GitHub was chosen because it provides version control, change history, and conflict management.
+
+---
+
+### Explanation
+
+- File transfer methods like USB or cloud drives can overwrite changes
+- Git tracks every modification with commit history
+- Mistakes can be reverted safely
+
+This makes GitHub more reliable and professional.
+
+---
+
+### One-line viva answer
+
+> “GitHub provides version control and is safer than manual file transfers.”
+
+---
+
+## Q: How do you avoid conflicts when working from multiple systems?
+
+**A:**  
+Conflicts are avoided by always pulling the latest changes before starting work and committing logical changes frequently.
+
+---
+
+### Explanation
+
+- `git pull` ensures the local copy is up to date
+- Small, meaningful commits reduce conflict chances
+- Git automatically handles most merges
+
+---
+
+### One-line viva answer
+
+> “I avoid conflicts by pulling before work and committing changes frequently.”
+
+---
+
+## Q: Is internet connectivity required at all times?
+
+**A:**  
+Internet connectivity is required only when pushing or pulling changes from GitHub.
+
+---
+
+### Explanation
+
+- Coding and testing can be done offline
+- Synchronization happens when internet is available
+- This makes the workflow flexible in college environments
+
+---
+
+### One-line viva answer
+
+> “Internet is required only for synchronization, not for development.”
+
+---
+
+## Q: How are sensitive files handled in this workflow?
+
+**A:**  
+Sensitive files are stored locally and excluded from version control using `.gitignore`.
+
+---
+
+### Explanation
+
+- Files like `.env.local` contain sensitive data
+- These files are ignored using `.gitignore`
+- This prevents accidental exposure on GitHub
+
+---
+
+### One-line viva answer
+
+> “Sensitive files are kept local and excluded from Git using `.gitignore`.”
