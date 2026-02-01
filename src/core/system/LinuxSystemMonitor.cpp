@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+// Constructor that initializes prevTotal and prevIdle to 0.
 LinuxSystemMonitor::LinuxSystemMonitor()
     : prevTotal(0), prevIdle(0) {}
 
@@ -42,23 +43,30 @@ double LinuxSystemMonitor::getMemoryUsage()
     return 100.0 * (memTotal - memAvailable) / memTotal;
 }
 
+// Returns the current percentage of CPU utilization on a Linux system.
 double LinuxSystemMonitor::getCPUUsage()
 {
     std::ifstream statFile("/proc/stat");
     std::string line;
+
+    // Read the first line of /proc/stat, which contains statistics for all CPUs.
     std::getline(statFile, line);
 
+    // Use an istringstream to parse the values from the line.
     std::istringstream ss(line);
     std::string cpuLabel;
 
     long long user, nice, system, idle, iowait, irq, softirq, steal;
 
+    // Read the CPU usage statistics into variables.
     ss >> cpuLabel >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
 
+    // Calculate the total time and idle time for the current CPU.
     long long idleTime = idle + iowait;
     long long totalTime =
         user + nice + system + idle + iowait + irq + softirq + steal;
 
+    // If this is the first call, initialize prevTotal and prevIdle to the current total and idle times.
     if (prevTotal == 0)
     {
         prevTotal = totalTime;
@@ -66,14 +74,18 @@ double LinuxSystemMonitor::getCPUUsage()
         return 0.0;
     }
 
+    // Calculate the change in CPU time since the last update.
     long long totalDelta = totalTime - prevTotal;
     long long idleDelta = idleTime - prevIdle;
 
+    // Update prevTotal and prevIdle with the current total and idle times.
     prevTotal = totalTime;
     prevIdle = idleTime;
 
+    // If no change in CPU time occurred, return 0.0 to avoid division by zero.
     if (totalDelta == 0)
         return 0.0;
 
+    // Calculate the percentage of CPU usage based on the change in time and idle time.
     return (1.0 - (double)idleDelta / totalDelta) * 100.0;
 }
