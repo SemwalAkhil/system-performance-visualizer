@@ -1,5 +1,32 @@
 # Linux /proc Filesystem (Viva Notes)
 
+- [Linux /proc Filesystem (Viva Notes)](#linux-proc-filesystem-viva-notes)
+  - [Q: What is the /proc filesystem?](#q-what-is-the-proc-filesystem)
+    - [Explanation](#explanation)
+    - [Key property](#key-property)
+    - [One-line viva answer](#one-line-viva-answer)
+  - [Q: Why is `/proc` used instead of system calls?](#q-why-is-proc-used-instead-of-system-calls)
+    - [Explanation](#explanation-1)
+    - [Academic advantage](#academic-advantage)
+    - [One-line viva answer](#one-line-viva-answer-1)
+  - [Q: What information is read from `/proc/meminfo`?](#q-what-information-is-read-from-procmeminfo)
+    - [Explanation](#explanation-2)
+    - [Why this method is preferred](#why-this-method-is-preferred)
+    - [One-line viva answer](#one-line-viva-answer-2)
+  - [Q: Why is `/proc/stat` read twice for CPU usage?](#q-why-is-procstat-read-twice-for-cpu-usage)
+    - [Explanation](#explanation-3)
+    - [Key concept](#key-concept)
+    - [One-line viva answer](#one-line-viva-answer-3)
+  - [Q: Does `/proc` exist in Windows?](#q-does-proc-exist-in-windows)
+    - [Explanation](#explanation-4)
+    - [Design implication](#design-implication)
+    - [One-line viva answer](#one-line-viva-answer-4)
+  - [Q: Why is WSL acceptable for this project?](#q-why-is-wsl-acceptable-for-this-project)
+    - [Explanation](#explanation-5)
+    - [Academic justification](#academic-justification)
+    - [One-line viva answer](#one-line-viva-answer-5)
+
+
 ## Q: What is the /proc filesystem?
 
 **A:**  

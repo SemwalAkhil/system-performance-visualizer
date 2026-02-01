@@ -1,5 +1,28 @@
 # Design Decisions (Viva Notes)
 
+- [Design Decisions (Viva Notes)](#design-decisions-viva-notes)
+  - [Decision: Use Linux instead of Windows](#decision-use-linux-instead-of-windows)
+    - [Explanation](#explanation)
+    - [Academic benefit](#academic-benefit)
+    - [One-line viva answer](#one-line-viva-answer)
+  - [Decision: Use WSL instead of dual boot](#decision-use-wsl-instead-of-dual-boot)
+    - [Explanation](#explanation-1)
+    - [Practical advantage](#practical-advantage)
+    - [One-line viva answer](#one-line-viva-answer-1)
+  - [Decision: Use interface-based design](#decision-use-interface-based-design)
+    - [Explanation](#explanation-2)
+    - [Design benefit](#design-benefit)
+    - [One-line viva answer](#one-line-viva-answer-2)
+  - [Decision: Separate core logic from GUI](#decision-separate-core-logic-from-gui)
+    - [Explanation](#explanation-3)
+    - [Software engineering principle](#software-engineering-principle)
+    - [One-line viva answer](#one-line-viva-answer-3)
+  - [Decision: Start with memory monitoring before CPU monitoring](#decision-start-with-memory-monitoring-before-cpu-monitoring)
+    - [Explanation](#explanation-4)
+    - [Development advantage](#development-advantage)
+    - [One-line viva answer](#one-line-viva-answer-4)
+
+
 ## Decision: Use Linux instead of Windows
 
 **Reason:**  

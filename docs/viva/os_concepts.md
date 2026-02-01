@@ -1,5 +1,30 @@
 # Operating System Concepts (Viva Notes)
 
+- [Operating System Concepts (Viva Notes)](#operating-system-concepts-viva-notes)
+  - [Q: What is CPU scheduling?](#q-what-is-cpu-scheduling)
+    - [Explanation](#explanation)
+    - [One-line viva answer](#one-line-viva-answer)
+  - [Q: Why does this project simulate scheduling instead of controlling real scheduling?](#q-why-does-this-project-simulate-scheduling-instead-of-controlling-real-scheduling)
+    - [Explanation](#explanation-1)
+    - [Academic justification](#academic-justification)
+    - [One-line viva answer](#one-line-viva-answer-1)
+  - [Q: Which scheduling algorithms are implemented?](#q-which-scheduling-algorithms-are-implemented)
+    - [Implemented algorithms](#implemented-algorithms)
+    - [Educational value](#educational-value)
+    - [One-line viva answer](#one-line-viva-answer-2)
+  - [Q: What is the difference between preemptive and non-preemptive scheduling?](#q-what-is-the-difference-between-preemptive-and-non-preemptive-scheduling)
+    - [Explanation](#explanation-2)
+    - [Key distinction](#key-distinction)
+    - [One-line viva answer](#one-line-viva-answer-3)
+  - [Q: What is memory fragmentation?](#q-what-is-memory-fragmentation)
+    - [Explanation](#explanation-3)
+    - [One-line viva answer](#one-line-viva-answer-4)
+  - [Q: Why simulate memory allocation?](#q-why-simulate-memory-allocation)
+    - [Explanation](#explanation-4)
+    - [Educational benefit](#educational-benefit)
+    - [One-line viva answer](#one-line-viva-answer-5)
+
+
 ## Q: What is CPU scheduling?
 
 **A:**  
