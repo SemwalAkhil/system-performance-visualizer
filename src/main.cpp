@@ -9,5 +9,9 @@ int main()
               << monitor.getMemoryUsage()
               << "%\n";
 
+    std::cout << "CPU Usage: "
+              << monitor.getCPUUsage()
+              << "%\n";
+
     return 0;
 }

@@ -1,6 +1,10 @@
 #include "LinuxSystemMonitor.h"
 #include <fstream>
+#include <sstream>
 #include <string>
+
+LinuxSystemMonitor::LinuxSystemMonitor()
+    : prevTotal(0), prevIdle(0) {}
 
 // Returns the current percentage of memory usage on a Linux system.
 double LinuxSystemMonitor::getMemoryUsage()
@@ -38,10 +42,38 @@ double LinuxSystemMonitor::getMemoryUsage()
     return 100.0 * (memTotal - memAvailable) / memTotal;
 }
 
-// TODO: Implement CPU usage calculation using /proc/stat
 double LinuxSystemMonitor::getCPUUsage()
 {
-    // This function will need to parse the output of /proc/stat to determine the total and idle CPU time.
-    // It will then calculate the percentage of time the CPU is busy.
-    return 0.0;
+    std::ifstream statFile("/proc/stat");
+    std::string line;
+    std::getline(statFile, line);
+
+    std::istringstream ss(line);
+    std::string cpuLabel;
+
+    long long user, nice, system, idle, iowait, irq, softirq, steal;
+
+    ss >> cpuLabel >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
+
+    long long idleTime = idle + iowait;
+    long long totalTime =
+        user + nice + system + idle + iowait + irq + softirq + steal;
+
+    if (prevTotal == 0)
+    {
+        prevTotal = totalTime;
+        prevIdle = idleTime;
+        return 0.0;
+    }
+
+    long long totalDelta = totalTime - prevTotal;
+    long long idleDelta = idleTime - prevIdle;
+
+    prevTotal = totalTime;
+    prevIdle = idleTime;
+
+    if (totalDelta == 0)
+        return 0.0;
+
+    return (1.0 - (double)idleDelta / totalDelta) * 100.0;
 }

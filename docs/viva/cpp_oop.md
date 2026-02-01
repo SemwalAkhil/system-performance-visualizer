@@ -33,6 +33,23 @@
     - [5. Reduces compilation time](#5-reduces-compilation-time)
     - [6. Industry and academic standard](#6-industry-and-academic-standard)
     - [One-line viva answer](#one-line-viva-answer-6)
+  - [Q: What is the purpose of `#ifndef` and `#define` in header files?](#q-what-is-the-purpose-of-ifndef-and-define-in-header-files)
+    - [Explanation](#explanation-6)
+    - [How header guards work](#how-header-guards-work)
+    - [Why this is necessary in this project](#why-this-is-necessary-in-this-project)
+    - [What happens if header guards are not used?](#what-happens-if-header-guards-are-not-used)
+    - [Alternative approach](#alternative-approach)
+    - [One-line viva answer](#one-line-viva-answer-7)
+  - [Q: Why did the compiler give an error when defining `LinuxSystemMonitor::LinuxSystemMonitor()`?](#q-why-did-the-compiler-give-an-error-when-defining-linuxsystemmonitorlinuxsystemmonitor)
+    - [Explanation](#explanation-7)
+    - [Why this happens](#why-this-happens)
+    - [How the issue was fixed](#how-the-issue-was-fixed)
+    - [One-line viva answer](#one-line-viva-answer-8)
+  - [Q: What does this line mean: `LinuxSystemMonitor::LinuxSystemMonitor() : prevTotal(0), prevIdle(0) {}`](#q-what-does-this-line-mean-linuxsystemmonitorlinuxsystemmonitor--prevtotal0-previdle0-)
+    - [Explanation](#explanation-8)
+    - [Why member initializer lists are used](#why-member-initializer-lists-are-used)
+    - [Why not initialize inside the constructor body?](#why-not-initialize-inside-the-constructor-body)
+    - [One-line viva answer](#one-line-viva-answer-9)
 
 
 ## Q: What is a vtable in C++?
@@ -290,3 +307,188 @@ Large software systems never use a single source file.
 ### One-line viva answer
 
 > “Writing everything in one `.cpp` file does not scale; headers enable modular and maintainable design.”
+
+---
+
+## Q: What is the purpose of `#ifndef` and `#define` in header files?
+
+**A:**  
+`#ifndef` and `#define` are used to prevent **multiple inclusion of the same header file**, which can otherwise cause compilation errors.
+
+---
+
+### Explanation
+When a header file is included using `#include`, its contents are copied into the source file by the preprocessor.
+
+If the same header file is included multiple times:
+- Class definitions may be repeated
+- Function declarations may be duplicated
+- The compiler will throw redefinition errors
+
+To avoid this, **header guards** are used.
+
+---
+
+### How header guards work
+```cpp
+#ifndef LINUX_SYSTEM_MONITOR_H
+#define LINUX_SYSTEM_MONITOR_H
+
+// header file content
+
+#endif
+````
+
+* `#ifndef` checks if the macro is **not defined**
+* `#define` defines the macro the first time the file is included
+* On subsequent includes, the file contents are skipped
+
+Thus, the header file is processed **only once** per compilation unit.
+
+---
+
+### Why this is necessary in this project
+
+This project uses multiple source files:
+
+* `main.cpp`
+* `LinuxSystemMonitor.cpp`
+* (future scheduler and GUI files)
+
+The same headers may be included indirectly multiple times.
+Header guards ensure:
+
+* No redefinition of classes
+* Clean multi-file compilation
+* Safe modular design
+
+---
+
+### What happens if header guards are not used?
+
+Without header guards:
+
+* The compiler may see the same class definition multiple times
+* Errors such as *redefinition of class* will occur
+* Large projects become impossible to compile reliably
+
+---
+
+### Alternative approach
+
+Some compilers support:
+
+```cpp
+#pragma once
+```
+
+However:
+
+* It is not part of the C++ standard
+* `#ifndef` / `#define` is more portable and widely accepted
+
+---
+
+### One-line viva answer
+
+> “`#ifndef` and `#define` are used as header guards to prevent multiple inclusion of the same header file.”
+
+---
+
+## Q: Why did the compiler give an error when defining `LinuxSystemMonitor::LinuxSystemMonitor()`?
+
+**A:**  
+The compiler gave an error because the constructor was **defined in the `.cpp` file but not declared in the header file**.
+
+---
+
+### Explanation
+In C++, every function—including constructors—must be:
+1. **Declared** in the header file
+2. **Defined** in the source file
+
+In this case:
+- The constructor definition was written in `LinuxSystemMonitor.cpp`
+- But the constructor declaration was missing in `LinuxSystemMonitor.h`
+
+As a result, the compiler treated the constructor as *implicitly declared* and rejected the definition.
+
+---
+
+### Why this happens
+- If no constructor is written, C++ generates a default constructor automatically
+- Once a constructor is explicitly defined, the compiler expects a proper declaration
+- Missing declarations break the compilation process
+
+---
+
+### How the issue was fixed
+The constructor was declared in the header file:
+```cpp
+LinuxSystemMonitor();
+````
+
+This allowed the compiler to match the declaration with the definition.
+
+---
+
+### One-line viva answer
+
+> “The error occurred because the constructor was defined in the source file but not declared in the header.”
+
+---
+
+## Q: What does this line mean: `LinuxSystemMonitor::LinuxSystemMonitor() : prevTotal(0), prevIdle(0) {}`
+
+**A:**
+This line defines the **constructor** of the class and uses a **member initializer list** to initialize class variables.
+
+---
+
+### Explanation
+
+* `LinuxSystemMonitor::LinuxSystemMonitor()`
+  → Defines the constructor of the `LinuxSystemMonitor` class
+
+* `: prevTotal(0), prevIdle(0)`
+  → Initializes the member variables **before the constructor body runs**
+
+* `{}`
+  → Empty constructor body (no additional logic required)
+
+---
+
+### Why member initializer lists are used
+
+* Member variables are initialized **more efficiently**
+* Required for initializing `const` members and references
+* Preferred C++ best practice
+
+In this project:
+
+* `prevTotal` and `prevIdle` must start at `0`
+* This allows correct CPU usage delta calculation
+
+---
+
+### Why not initialize inside the constructor body?
+
+Doing this:
+
+```cpp
+prevTotal = 0;
+prevIdle = 0;
+```
+
+is less efficient because:
+
+* The variables are first default-initialized
+* Then reassigned
+
+Initializer lists avoid this extra step.
+
+---
+
+### One-line viva answer
+
+> “This line defines the constructor and initializes member variables using a member initializer list.”
