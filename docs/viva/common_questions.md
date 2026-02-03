@@ -101,26 +101,29 @@
   - [Q: Why was the existing C++ code not discarded when moving to a web application?](#q-why-was-the-existing-c-code-not-discarded-when-moving-to-a-web-application)
     - [Explanation](#explanation-29)
     - [One-line viva answer](#one-line-viva-answer-29)
-  - [Q: Why was Python chosen as the web backend instead of Node.js?](#q-why-was-python-chosen-as-the-web-backend-instead-of-nodejs)
+  - [Q: How does the project satisfy the requirement of being fully cloud-based?](#q-how-does-the-project-satisfy-the-requirement-of-being-fully-cloud-based)
     - [Explanation](#explanation-30)
     - [One-line viva answer](#one-line-viva-answer-30)
-  - [Q: How does the project satisfy the requirement of being fully cloud-based?](#q-how-does-the-project-satisfy-the-requirement-of-being-fully-cloud-based)
+  - [Q: How do CPU and memory values change dynamically on the web interface?](#q-how-do-cpu-and-memory-values-change-dynamically-on-the-web-interface)
     - [Explanation](#explanation-31)
     - [One-line viva answer](#one-line-viva-answer-31)
-  - [Q: How do CPU and memory values change dynamically on the web interface?](#q-how-do-cpu-and-memory-values-change-dynamically-on-the-web-interface)
+  - [Q: Why were WebSockets, Server-Sent Events, or Streaming not used?](#q-why-were-websockets-server-sent-events-or-streaming-not-used)
     - [Explanation](#explanation-32)
     - [One-line viva answer](#one-line-viva-answer-32)
-  - [Q: Why were WebSockets, Server-Sent Events, or Streaming not used?](#q-why-were-websockets-server-sent-events-or-streaming-not-used)
+  - [Q: Can the project directly control CPU or memory usage?](#q-can-the-project-directly-control-cpu-or-memory-usage)
     - [Explanation](#explanation-33)
     - [One-line viva answer](#one-line-viva-answer-33)
-  - [Q: Can the project directly control CPU or memory usage?](#q-can-the-project-directly-control-cpu-or-memory-usage)
+  - [Q: Why is a Linux cloud VM used instead of serverless platforms?](#q-why-is-a-linux-cloud-vm-used-instead-of-serverless-platforms)
     - [Explanation](#explanation-34)
     - [One-line viva answer](#one-line-viva-answer-34)
-  - [Q: Why is a Linux cloud VM used instead of serverless platforms?](#q-why-is-a-linux-cloud-vm-used-instead-of-serverless-platforms)
-    - [Explanation](#explanation-35)
-    - [One-line viva answer](#one-line-viva-answer-35)
   - [Q: How is project progress tracked and managed?](#q-how-is-project-progress-tracked-and-managed)
+    - [Explanation](#explanation-35)
+  - [Q: Why is the C++ engine designed to output JSON only?](#q-why-is-the-c-engine-designed-to-output-json-only)
     - [Explanation](#explanation-36)
+    - [One-line viva answer](#one-line-viva-answer-35)
+  - [Q: Why is the compiled C++ binary stored in a dedicated `bin/` directory?](#q-why-is-the-compiled-c-binary-stored-in-a-dedicated-bin-directory)
+    - [Explanation](#explanation-37)
+    - [One-line viva answer](#one-line-viva-answer-36)
 
 
 ## Q: Is this project platform-dependent?
@@ -879,26 +882,6 @@ The existing C++ code forms the core system engine and provides real system moni
 
 ---
 
-## Q: Why was Python chosen as the web backend instead of Node.js?
-
-**A:**  
-Python was chosen because it integrates more easily with C++ system programs and is simpler to deploy and explain.
-
----
-
-### Explanation
-- Python can directly execute or interface with C++ binaries
-- It simplifies REST API development
-- It is widely accepted in academic environments
-- It reduces integration complexity compared to Node.js native bindings
-
----
-
-### One-line viva answer
-> “Python was chosen because it acts as a simple and reliable wrapper around the C++ core.”
-
----
-
 ## Q: How does the project satisfy the requirement of being fully cloud-based?
 
 **A:**  
@@ -1012,3 +995,39 @@ Project progress is tracked using a documented Plan of Action.
 - The plan evolves as milestones are achieved
 
 ---
+
+## Q: Why is the C++ engine designed to output JSON only?
+**A:**  
+JSON-only output simplifies integration with the web backend.
+
+---
+
+### Explanation
+- JSON is machine-readable and lightweight
+- It avoids parsing errors and extra text
+- It allows seamless communication with Python
+- It is suitable for REST APIs
+
+---
+
+### One-line viva answer
+> “JSON-only output ensures clean and reliable backend integration.”
+
+---
+
+## Q: Why is the compiled C++ binary stored in a dedicated `bin/` directory?
+**A:**  
+Separating binaries from source code improves project organization and maintainability.
+
+---
+
+### Explanation
+- Keeps the repository clean
+- Follows standard project structure
+- Avoids clutter in the root directory
+- Makes deployment clearer
+
+---
+
+### One-line viva answer
+> “A dedicated bin directory improves clarity and organization.”

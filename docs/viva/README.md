@@ -10,3 +10,4 @@ Sections:
 - [Linux /proc filesystem](linux_procfs.md)
 - [Design decisions & trade-offs](design_decisions.md)
 - [Common Questions](common_questions.md)
+- [Python and FastAPI](python_fastapi.md)

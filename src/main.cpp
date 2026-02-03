@@ -1,23 +1,19 @@
 #include <iostream>
+#include <iomanip>
 #include "core/system/LinuxSystemMonitor.h"
-#include <thread>
-#include <chrono>
 
 int main()
 {
     LinuxSystemMonitor monitor;
-    while (true)
-    {
-        std::cout << "Memory Usage: "
-                  << monitor.getMemoryUsage()
-                  << "%\n";
 
-        std::cout << "CPU Usage: "
-                  << monitor.getCPUUsage()
-                  << "%\n";
+    double cpu = monitor.getCPUUsage();
+    double memory = monitor.getMemoryUsage();
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "{";
+    std::cout << "\"cpu\": " << cpu << ", ";
+    std::cout << "\"memory\": " << memory;
+    std::cout << "}";
 
     return 0;
 }
