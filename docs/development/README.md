@@ -1,8 +1,6 @@
 # Development Notes & Rules
 
-This document defines the rules followed throughout the development of the
-**System Performance Visualizer** project.
-
+This document defines the rules followed throughout the development of the **System Performance Visualizer** project.
 These rules are followed consistently to ensure code quality, stability,
 and seamless development across multiple systems.
 
@@ -58,4 +56,17 @@ and seamless development across multiple systems.
 
 ---
 
+### Project Planning Discipline
+The Plan of Action document is a living document and must be kept up to date.
+The Plan of Action must be updated whenever:
+- A development phase is completed
+- A new major feature is added
+- Scope or implementation details change
+- Architectural decisions are revised
+This ensures that the repository always reflects the current state of the project
+and provides a clear progress trail.
+
+---
+
 These rules are mandatory and followed for the entire duration of the project.
+

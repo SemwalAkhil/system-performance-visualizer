@@ -35,6 +35,13 @@ Development rules and workflow are documented here:
 
 - [Development Rules](docs/development/README.md)
 
+## Project Plan
+
+The detailed development roadmap is available here:
+
+- [Plan of Action](docs/plan/planOfAction.md)
+
+
 ## Status
 
 🚧 In development

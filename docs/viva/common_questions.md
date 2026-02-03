@@ -95,6 +95,32 @@
   - [Q: Why is this approach better than a single long README file?](#q-why-is-this-approach-better-than-a-single-long-readme-file)
     - [Explanation](#explanation-27)
     - [One-line viva answer](#one-line-viva-answer-27)
+  - [Q: Why was the project shifted from a standalone application to a web application?](#q-why-was-the-project-shifted-from-a-standalone-application-to-a-web-application)
+    - [Explanation](#explanation-28)
+    - [One-line viva answer](#one-line-viva-answer-28)
+  - [Q: Why was the existing C++ code not discarded when moving to a web application?](#q-why-was-the-existing-c-code-not-discarded-when-moving-to-a-web-application)
+    - [Explanation](#explanation-29)
+    - [One-line viva answer](#one-line-viva-answer-29)
+  - [Q: Why was Python chosen as the web backend instead of Node.js?](#q-why-was-python-chosen-as-the-web-backend-instead-of-nodejs)
+    - [Explanation](#explanation-30)
+    - [One-line viva answer](#one-line-viva-answer-30)
+  - [Q: How does the project satisfy the requirement of being fully cloud-based?](#q-how-does-the-project-satisfy-the-requirement-of-being-fully-cloud-based)
+    - [Explanation](#explanation-31)
+    - [One-line viva answer](#one-line-viva-answer-31)
+  - [Q: How do CPU and memory values change dynamically on the web interface?](#q-how-do-cpu-and-memory-values-change-dynamically-on-the-web-interface)
+    - [Explanation](#explanation-32)
+    - [One-line viva answer](#one-line-viva-answer-32)
+  - [Q: Why were WebSockets, Server-Sent Events, or Streaming not used?](#q-why-were-websockets-server-sent-events-or-streaming-not-used)
+    - [Explanation](#explanation-33)
+    - [One-line viva answer](#one-line-viva-answer-33)
+  - [Q: Can the project directly control CPU or memory usage?](#q-can-the-project-directly-control-cpu-or-memory-usage)
+    - [Explanation](#explanation-34)
+    - [One-line viva answer](#one-line-viva-answer-34)
+  - [Q: Why is a Linux cloud VM used instead of serverless platforms?](#q-why-is-a-linux-cloud-vm-used-instead-of-serverless-platforms)
+    - [Explanation](#explanation-35)
+    - [One-line viva answer](#one-line-viva-answer-35)
+  - [Q: How is project progress tracked and managed?](#q-how-is-project-progress-tracked-and-managed)
+    - [Explanation](#explanation-36)
 
 
 ## Q: Is this project platform-dependent?
@@ -810,3 +836,179 @@ This approach improves usability during viva preparation.
 
 ### One-line viva answer
 > “Indexed documentation is easier to navigate than a single long README.”
+
+## Q: Why was the project shifted from a standalone application to a web application?
+
+**A:**  
+The project was adapted to a web application to meet academic requirements while retaining the existing system-level core.
+
+---
+
+### Explanation
+- The original implementation focused on system monitoring using C++
+- The instructor required the final project to be a web application
+- Instead of discarding existing work, a web layer was added
+- The C++ core remains unchanged and is exposed via a web backend
+
+This approach preserves low-level system programming while satisfying web-based requirements.
+
+---
+
+### One-line viva answer
+> “The project was adapted into a web application by adding a web layer on top of the existing C++ core.”
+
+---
+
+## Q: Why was the existing C++ code not discarded when moving to a web application?
+
+**A:**  
+The existing C++ code forms the core system engine and provides real system monitoring functionality.
+
+---
+
+### Explanation
+- The C++ code accesses Linux kernel data through `/proc`
+- It implements accurate CPU and memory usage calculation
+- Discarding it would remove the strongest technical component
+- The web layer is designed as a wrapper, not a replacement
+
+---
+
+### One-line viva answer
+> “The C++ core provides real system monitoring and is reused as the backend engine.”
+
+---
+
+## Q: Why was Python chosen as the web backend instead of Node.js?
+
+**A:**  
+Python was chosen because it integrates more easily with C++ system programs and is simpler to deploy and explain.
+
+---
+
+### Explanation
+- Python can directly execute or interface with C++ binaries
+- It simplifies REST API development
+- It is widely accepted in academic environments
+- It reduces integration complexity compared to Node.js native bindings
+
+---
+
+### One-line viva answer
+> “Python was chosen because it acts as a simple and reliable wrapper around the C++ core.”
+
+---
+
+## Q: How does the project satisfy the requirement of being fully cloud-based?
+
+**A:**  
+The project is deployed on a Linux cloud virtual machine and accessed through a web browser.
+
+---
+
+### Explanation
+- The backend and C++ engine run on a cloud-hosted Linux VM
+- The web application is accessed using the VM’s public IP
+- The system monitors the cloud server it is hosted on
+- This represents a complete cloud deployment
+
+---
+
+### One-line viva answer
+> “The project is fully cloud-based by running on a Linux VM and accessed via a browser.”
+
+---
+
+## Q: How do CPU and memory values change dynamically on the web interface?
+
+**A:**  
+The web interface periodically fetches fresh data from the backend using polling.
+
+---
+
+### Explanation
+- The browser sends requests at fixed intervals
+- Each request triggers fresh reads from `/proc`
+- Updated values are returned as JSON
+- The UI updates charts and values accordingly
+
+---
+
+### One-line viva answer
+> “Dynamic updates are achieved through periodic polling of backend APIs.”
+
+---
+
+## Q: Why were WebSockets, Server-Sent Events, or Streaming not used?
+
+**A:**  
+Polling was chosen because it is simpler, sufficient, and reliable for second-level updates.
+
+---
+
+### Explanation
+- The project does not require millisecond-level updates
+- Polling reduces complexity and debugging overhead
+- It is easier to explain and maintain
+- It fits well with academic project requirements
+
+---
+
+### One-line viva answer
+> “Polling was sufficient and avoided unnecessary real-time communication complexity.”
+
+---
+
+## Q: Can the project directly control CPU or memory usage?
+
+**A:**  
+No, the project does not directly control system resources.
+
+---
+
+### Explanation
+- CPU and memory are managed by the operating system kernel
+- User-space programs cannot arbitrarily increase usage
+- The project generates controlled load processes to observe real behavior
+
+---
+
+### One-line viva answer
+> “The project generates controlled load processes instead of directly controlling resources.”
+
+---
+
+## Q: Why is a Linux cloud VM used instead of serverless platforms?
+
+**A:**  
+Serverless platforms restrict kernel access and do not expose `/proc`.
+
+---
+
+### Explanation
+- The project depends on real kernel-level system data
+- Cloud VMs provide full Linux kernel access
+- This ensures accurate system monitoring
+- It avoids sandbox limitations of serverless platforms
+
+---
+
+### One-line viva answer
+> “A cloud VM is used because it provides unrestricted access to Linux system data.”
+
+---
+
+## Q: How is project progress tracked and managed?
+
+**A:**  
+Project progress is tracked using a documented Plan of Action.
+
+---
+
+### Explanation
+- Development is divided into well-defined phases
+- Each phase has clear deliverables
+- Completed and planned phases are explicitly documented
+- The plan evolves as milestones are achieved
+
+---
