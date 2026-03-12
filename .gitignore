@@ -1,45 +1,68 @@
 # --------------------
+
 # Build artifacts
-# --------------------
-build/
-builds/
-bin/
-*.o
-*.obj
 
 # --------------------
+
+build/                  # Directory containing compiled binaries or intermediate build files
+builds/                 # Directory containing additional build-related files
+bin/                    # Directory containing executable binary files
+*.o                     # Object files generated during the compilation process
+*.obj                   # Object files generated during the compilation process
+
+# --------------------
+
 # Python
-# --------------------
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.venv/
-venv/
-env/
 
 # --------------------
-# Qt specific
-# --------------------
-*.pro.user
-*.autosave
-moc_*.cpp
-ui_*.h
-qrc_*.cpp
+
+**pycache**/            # Directory containing cached Python bytecode and metadata
+*.pyc                   # Compiled Python bytecode files
+*.pyo                   # Optimized Python bytecode files
+*.pyd                   # Dynamic modules for Python
+.venv/                  # Python virtual environment used for development
+venv/                   # Alternate virtual environment directory name
+env/                    # Environment directory (if using tools like conda)
 
 # --------------------
+
+# Dev Containers / Codespaces
+
+# --------------------
+
+.vscode/                # Local VS Code configuration (user specific)
+
+# --------------------
+
 # OS files
-# --------------------
-.DS_Store
-Thumbs.db
 
 # --------------------
+
+.DS_Store               # macOS metadata file
+Thumbs.db               # Windows thumbnail cache
+
+# --------------------
+
 # Logs
-# --------------------
-*.log
 
 # --------------------
-# Environment files
+
+*.log                   # Log files generated during program execution
+
 # --------------------
-.env
-.env.local
+
+# Environment files
+
+# --------------------
+
+.env                    # Default environment configuration file
+.env.local              # Environment configuration file for local development
+
+# --------------------
+
+# Temporary / misc
+
+# --------------------
+
+*.tmp
+*.temp

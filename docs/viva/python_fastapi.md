@@ -86,6 +86,15 @@
   - [Q: Is Uvicorn only used in development?](#q-is-uvicorn-only-used-in-development)
     - [Explanation](#explanation-27)
     - [One-line viva answer](#one-line-viva-answer-27)
+  - [Q: Why does the FastAPI backend execute the C++ binary instead of reimplementing monitoring in Python?](#q-why-does-the-fastapi-backend-execute-the-c-binary-instead-of-reimplementing-monitoring-in-python)
+    - [One-line viva answer](#one-line-viva-answer-28)
+  - [Q: Why does the C++ engine return JSON output?](#q-why-does-the-c-engine-return-json-output)
+    - [One-line viva answer](#one-line-viva-answer-29)
+  - [Q: Why is `requirements.txt` used in the backend?](#q-why-is-requirementstxt-used-in-the-backend)
+    - [One-line viva answer](#one-line-viva-answer-30)
+- [File: `docs/viva/linux_procfs.md`](#file-docsvivalinux_procfsmd)
+  - [Q: Why are `/proc/stat` and `/proc/meminfo` used for monitoring?](#q-why-are-procstat-and-procmeminfo-used-for-monitoring)
+    - [One-line viva answer](#one-line-viva-answer-31)
 
 # Python and FastAPI (Viva Notes)
 
@@ -673,3 +682,72 @@ No, Uvicorn can be used in both development and production environments.
 
 ### One-line viva answer
 > “Uvicorn can be used in both development and production.”
+
+---
+
+## Q: Why does the FastAPI backend execute the C++ binary instead of reimplementing monitoring in Python?
+
+**A:**
+The monitoring logic is already implemented in C++ because the project focuses on low-level system programming.
+
+Instead of rewriting the logic in Python, the backend executes the compiled binary and reads its JSON output.
+
+This allows the project to maintain a clear separation between system-level logic and web API functionality.
+
+### One-line viva answer
+
+> “The FastAPI backend executes the C++ engine to preserve low-level monitoring logic.”
+
+---
+
+## Q: Why does the C++ engine return JSON output?
+
+**A:**
+JSON is a standard data exchange format used by web APIs.
+
+Returning JSON allows the backend to easily parse the system statistics and send them to the frontend.
+
+This simplifies communication between the system engine, backend server, and web client.
+
+### One-line viva answer
+
+> “JSON is used because it is the standard format for API data exchange.”
+
+---
+
+## Q: Why is `requirements.txt` used in the backend?
+
+**A:**
+The `requirements.txt` file lists all Python dependencies required by the backend.
+
+This allows dependencies to be installed automatically using `pip`.
+
+It ensures that the backend runs consistently across different environments.
+
+### One-line viva answer
+
+> “`requirements.txt` ensures consistent installation of backend dependencies.”
+
+---
+
+# File: `docs/viva/linux_procfs.md`
+
+---
+
+## Q: Why are `/proc/stat` and `/proc/meminfo` used for monitoring?
+
+**A:**
+The Linux `/proc` filesystem exposes real-time kernel information about system resources.
+
+The project reads:
+
+* `/proc/stat` to calculate CPU usage
+* `/proc/meminfo` to calculate memory usage
+
+These files provide direct access to kernel-level statistics.
+
+### One-line viva answer
+
+> “`/proc/stat` and `/proc/meminfo` provide real-time CPU and memory statistics.”
+
+---

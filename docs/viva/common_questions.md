@@ -124,6 +124,10 @@
   - [Q: Why is the compiled C++ binary stored in a dedicated `bin/` directory?](#q-why-is-the-compiled-c-binary-stored-in-a-dedicated-bin-directory)
     - [Explanation](#explanation-37)
     - [One-line viva answer](#one-line-viva-answer-36)
+  - [Q: Why are development tools and build artifacts excluded using `.gitignore`?](#q-why-are-development-tools-and-build-artifacts-excluded-using-gitignore)
+    - [One-line viva answer](#one-line-viva-answer-37)
+  - [Q: Why are environment files such as `.env.local` ignored?](#q-why-are-environment-files-such-as-envlocal-ignored)
+    - [One-line viva answer](#one-line-viva-answer-38)
 
 
 ## Q: Is this project platform-dependent?
@@ -1031,3 +1035,35 @@ Separating binaries from source code improves project organization and maintaina
 
 ### One-line viva answer
 > “A dedicated bin directory improves clarity and organization.”
+
+---
+
+## Q: Why are development tools and build artifacts excluded using `.gitignore`?
+
+**A:**
+Build artifacts such as compiled binaries and temporary files do not need to be stored in version control.
+
+These files are automatically generated and may differ between systems.
+
+Ignoring them keeps the repository clean and focused on source code.
+
+### One-line viva answer
+
+> “Build artifacts are ignored because they can be regenerated from source code.”
+
+---
+
+## Q: Why are environment files such as `.env.local` ignored?
+
+**A:**
+Environment files may contain sensitive information such as API tokens or configuration values.
+
+These files are specific to a developer's machine and should not be stored in the repository.
+
+Therefore they are excluded using `.gitignore`.
+
+### One-line viva answer
+
+> “Environment files are ignored to protect sensitive configuration data.”
+
+---
