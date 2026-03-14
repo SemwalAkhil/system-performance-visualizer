@@ -1,68 +1,53 @@
 # --------------------
-
 # Build artifacts
+# --------------------
+build/
+builds/
+bin/
+*.o
+*.obj
+*.out
+*.exe
 
 # --------------------
-
-build/                  # Directory containing compiled binaries or intermediate build files
-builds/                 # Directory containing additional build-related files
-bin/                    # Directory containing executable binary files
-*.o                     # Object files generated during the compilation process
-*.obj                   # Object files generated during the compilation process
-
-# --------------------
-
 # Python
+# --------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
 
 # --------------------
-
-**pycache**/            # Directory containing cached Python bytecode and metadata
-*.pyc                   # Compiled Python bytecode files
-*.pyo                   # Optimized Python bytecode files
-*.pyd                   # Dynamic modules for Python
-.venv/                  # Python virtual environment used for development
-venv/                   # Alternate virtual environment directory name
-env/                    # Environment directory (if using tools like conda)
+# Dev Containers / IDE
+# --------------------
+.vscode/
 
 # --------------------
-
-# Dev Containers / Codespaces
-
-# --------------------
-
-.vscode/                # Local VS Code configuration (user specific)
-
-# --------------------
-
 # OS files
+# --------------------
+.DS_Store
+Thumbs.db
 
 # --------------------
-
-.DS_Store               # macOS metadata file
-Thumbs.db               # Windows thumbnail cache
-
-# --------------------
-
 # Logs
+# --------------------
+*.log
 
 # --------------------
-
-*.log                   # Log files generated during program execution
-
-# --------------------
-
 # Environment files
+# --------------------
+.env
+.env.local
 
 # --------------------
-
-.env                    # Default environment configuration file
-.env.local              # Environment configuration file for local development
-
-# --------------------
-
 # Temporary / misc
-
 # --------------------
-
 *.tmp
 *.temp
+*.swp
+*.swo
