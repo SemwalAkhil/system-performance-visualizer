@@ -27,6 +27,57 @@ Developers can work either:
 
 ---
 
+## Cloud Development Environment
+
+The project uses **GitHub Codespaces with Dev Containers** to standardize the
+development environment.
+
+### Motivation
+
+Development is performed across multiple college computers where system
+configurations cannot be controlled. Reinstalling tools such as Git, WSL,
+compilers, and Python dependencies repeatedly would slow down development.
+
+Codespaces solves this by creating a **pre-configured cloud development
+environment**.
+
+### Environment Setup
+
+The dev container automatically installs:
+
+- C++ toolchain (`build-essential`, `g++`)
+- Python runtime
+- Python virtual environment
+- Backend dependencies
+- Required VS Code extensions
+
+### Automatic Build Process
+
+When a Codespace is created:
+
+1. The repository is cloned
+2. The dev container image is built
+3. The Python virtual environment is created
+4. Dependencies are installed
+5. The C++ monitoring engine is compiled
+
+This process is executed using:
+
+```
+postCreateCommand
+```
+
+defined in the devcontainer configuration.
+
+### Benefits
+
+- Identical development environment on all machines
+- No manual tool installation
+- Faster onboarding
+- Reduced configuration errors
+
+---
+
 ## Version Control Rules
 
 1. GitHub is the single source of truth for the project

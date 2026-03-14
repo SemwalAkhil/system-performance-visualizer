@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postCreateCommand": "./scripts/build.sh",
+  "postCreateCommand": "python3 -m venv .venv && . .venv/bin/activate && pip install -r backend/requirements.txt && bash scripts/build.sh",
   "customizations": {
     "vscode": {
       "extensions": [

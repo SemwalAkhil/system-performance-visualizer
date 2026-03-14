@@ -51,6 +51,17 @@
     - [One-line viva answer](#one-line-viva-answer-18)
   - [Q: Why was a repository structure created with separate directories for `src`, `backend`, and `docs`?](#q-why-was-a-repository-structure-created-with-separate-directories-for-src-backend-and-docs)
     - [One-line viva answer](#one-line-viva-answer-19)
+  - [Q: Why was GitHub Codespaces used for development?](#q-why-was-github-codespaces-used-for-development-1)
+    - [Explanation](#explanation-5)
+    - [Benefits](#benefits)
+    - [One-line viva answer](#one-line-viva-answer-20)
+  - [Q: Why was GitHub Codespaces used for development?](#q-why-was-github-codespaces-used-for-development-2)
+    - [Explanation](#explanation-6)
+    - [Benefits](#benefits-1)
+    - [One-line viva answer](#one-line-viva-answer-21)
+  - [Q: What is a Dev Container?](#q-what-is-a-dev-container)
+    - [Explanation](#explanation-7)
+    - [One-line viva answer](#one-line-viva-answer-22)
 
 
 ## Decision: Use Linux instead of Windows
@@ -483,3 +494,114 @@ This separation makes the project easier to navigate and maintain.
 > “Structured directories separate system code, backend services, and documentation.”
 
 ---
+
+## Q: Why was GitHub Codespaces used for development?
+
+**A:**  
+GitHub Codespaces was used to create a standardized cloud-based development
+environment.
+
+---
+
+### Explanation
+
+The project is developed on multiple college computers where system
+configurations cannot be controlled. Installing tools such as Git, WSL,
+compilers, and Python dependencies repeatedly would slow down development.
+
+Codespaces solves this by running the development environment inside a
+preconfigured container hosted on GitHub's cloud infrastructure.
+
+The container automatically installs:
+
+- C++ build tools
+- Python runtime
+- Backend dependencies
+- Required development extensions
+
+---
+
+### Benefits
+
+- Same development environment on any computer
+- No local installation required
+- Faster project setup
+- Reduced configuration errors
+
+---
+
+### One-line viva answer
+
+> “Codespaces provides a reproducible cloud development environment that eliminates dependency setup across multiple systems.”
+
+---
+
+## Q: Why was GitHub Codespaces used for development?
+
+**A:**  
+GitHub Codespaces was used to create a standardized cloud-based development
+environment.
+
+---
+
+### Explanation
+
+The project is developed on multiple college computers where system
+configurations cannot be controlled. Installing tools such as Git, WSL,
+compilers, and Python dependencies repeatedly would slow down development.
+
+Codespaces solves this by running the development environment inside a
+preconfigured container hosted on GitHub's cloud infrastructure.
+
+The container automatically installs:
+
+- C++ build tools
+- Python runtime
+- Backend dependencies
+- Required development extensions
+
+---
+
+### Benefits
+
+- Same development environment on any computer
+- No local installation required
+- Faster project setup
+- Reduced configuration errors
+
+---
+
+### One-line viva answer
+
+> “Codespaces provides a reproducible cloud development environment that eliminates dependency setup across multiple systems.”
+
+---
+
+## Q: What is a Dev Container?
+
+**A:**  
+A Dev Container is a Docker-based environment that defines all tools and
+dependencies required for a project.
+
+---
+
+### Explanation
+
+The development container contains:
+
+- Operating system
+- Compiler toolchain
+- Programming language runtimes
+- Project dependencies
+
+When a Codespace starts, this container is automatically built and the project
+runs inside it.
+
+This ensures that every developer works in the same environment regardless of
+their local machine configuration.
+
+---
+
+### One-line viva answer
+
+> “A Dev Container defines a reproducible development environment using Docker.”

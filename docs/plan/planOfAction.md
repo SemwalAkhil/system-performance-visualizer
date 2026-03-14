@@ -221,14 +221,32 @@ The project combines:
 
 ---
 
-## Development Environment Setup
+## Development Environment Standardization
 
-Completed:
+To ensure seamless development across multiple college systems, the project now
+uses **GitHub Codespaces with Dev Containers**.
 
-* Configured Dev Container environment
-* Added GitHub Codespaces support
-* Implemented automated build script
-* Introduced Python virtual environment for backend dependencies
+This provides a fully configured development environment in the cloud,
+eliminating the need to repeatedly install tools such as:
+
+- Git
+- WSL
+- VS Code
+- Compilers
+- Python dependencies
+
+The development container automatically installs:
+
+- C++ build tools (`g++`, `build-essential`)
+- Python runtime
+- Virtual environment
+- Project dependencies from `backend/requirements.txt`
+
+A build script compiles the C++ system monitoring engine automatically when the
+container is created.
+
+This ensures that the project can be opened and developed on **any machine with
+a web browser**.
 
 ---
 

@@ -128,6 +128,9 @@
     - [One-line viva answer](#one-line-viva-answer-37)
   - [Q: Why are environment files such as `.env.local` ignored?](#q-why-are-environment-files-such-as-envlocal-ignored)
     - [One-line viva answer](#one-line-viva-answer-38)
+  - [Q: Why is a reproducible development environment important?](#q-why-is-a-reproducible-development-environment-important)
+    - [Explanation](#explanation-38)
+    - [One-line viva answer](#one-line-viva-answer-39)
 
 
 ## Q: Is this project platform-dependent?
@@ -1067,3 +1070,31 @@ Therefore they are excluded using `.gitignore`.
 > “Environment files are ignored to protect sensitive configuration data.”
 
 ---
+
+## Q: Why is a reproducible development environment important?
+
+**A:**  
+A reproducible development environment ensures that the project behaves
+consistently across different systems.
+
+---
+
+### Explanation
+
+Different machines may have different:
+
+- operating systems
+- compiler versions
+- library versions
+- environment configurations
+
+These differences can cause software to behave inconsistently.
+
+Using tools like Dev Containers ensures that all developers use the same
+environment, preventing configuration-related issues.
+
+---
+
+### One-line viva answer
+
+> “Reproducible environments ensure consistent behavior across different development systems.”
