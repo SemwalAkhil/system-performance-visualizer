@@ -12,6 +12,35 @@
     <p>CPU Usage: <span id="cpu">0</span>%</p>
     <p>Memory Usage: <span id="memory">0</span>%</p>
 
+    <h2>Enter Processes</h2>
+
+    <div id="process-inputs">
+        <div>
+            Arrival: <input type="number" class="arrival" />
+            Burst: <input type="number" class="burst" />
+        </div>
+    </div>
+    
+    <button onclick="addProcess()">Add Process</button>
+    <button onclick="runScheduler()">Run FCFS</button>
+
+    <h2>FCFS Scheduling</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Arrival</th>
+                <th>Burst</th>
+                <th>Completion</th>
+                <th>Waiting</th>
+                <th>Turnaround</th>
+            </tr>
+        </thead>
+        <tbody id="scheduler-body">
+        </tbody>
+    </table>
+
     <script>
         async function fetchStats() {
             const res = await fetch('/api/stats');
@@ -20,12 +49,85 @@
             document.getElementById('cpu').innerText = data.cpu.toFixed(2);
             document.getElementById('memory').innerText = data.memory.toFixed(2);
         }
+        async function fetchScheduler() {
+            const res = await fetch('/api/scheduler');
+            const data = await res.json();
+
+            const tbody = document.getElementById('scheduler-body');
+            tbody.innerHTML = "";
+
+            data.forEach(p => {
+                const row = `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td>${p.arrival}</td>
+                        <td>${p.burst}</td>
+                        <td>${p.completion}</td>
+                        <td>${p.waiting}</td>
+                        <td>${p.turnaround}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+        function addProcess() {
+            const div = document.createElement("div");
+
+            div.innerHTML = `
+                Arrival: <input type="number" class="arrival" />
+                Burst: <input type="number" class="burst" />
+            `;
+
+            document.getElementById("process-inputs").appendChild(div);
+        }
+        async function runScheduler() {
+            const arrivals = document.querySelectorAll(".arrival");
+            const bursts = document.querySelectorAll(".burst");
+                
+            let processes = [];
+                
+            for (let i = 0; i < arrivals.length; i++) {
+                processes.push({
+                    id: i + 1,
+                    arrival: parseInt(arrivals[i].value),
+                    burst: parseInt(bursts[i].value)
+                });
+            }
+        
+            const res = await fetch('/api/scheduler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(processes)
+            });
+        
+            const data = await res.json();
+        
+            const tbody = document.getElementById('scheduler-body');
+            tbody.innerHTML = "";
+        
+            data.forEach(p => {
+                const row = `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td>${p.arrival}</td>
+                        <td>${p.burst}</td>
+                        <td>${p.completion}</td>
+                        <td>${p.waiting}</td>
+                        <td>${p.turnaround}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
 
         // refresh every 1 second
         setInterval(fetchStats, 1000);
 
         // initial load
         fetchStats();
+
+        // Load scheduler only once
+        fetchScheduler();
     </script>
 
 </body>

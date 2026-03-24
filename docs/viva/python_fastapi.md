@@ -95,6 +95,10 @@
 - [File: `docs/viva/linux_procfs.md`](#file-docsvivalinux_procfsmd)
   - [Q: Why are `/proc/stat` and `/proc/meminfo` used for monitoring?](#q-why-are-procstat-and-procmeminfo-used-for-monitoring)
     - [One-line viva answer](#one-line-viva-answer-31)
+  - [Q: How is the C++ build automated in your project?](#q-how-is-the-c-build-automated-in-your-project)
+  - [Q: Why was lifespan used instead of `on_event`?](#q-why-was-lifespan-used-instead-of-on_event)
+  - [Q: Why is `cwd` used in subprocess while building?](#q-why-is-cwd-used-in-subprocess-while-building)
+  - [Q: How does FastAPI communicate with the scheduler?](#q-how-does-fastapi-communicate-with-the-scheduler)
 
 # Python and FastAPI (Viva Notes)
 
@@ -751,3 +755,57 @@ These files provide direct access to kernel-level statistics.
 > “`/proc/stat` and `/proc/meminfo` provide real-time CPU and memory statistics.”
 
 ---
+
+## Q: How is the C++ build automated in your project?
+
+**A:**
+
+The C++ build process is automated using FastAPI’s lifespan event, which executes a build script before the application starts.
+
+**One-line:**
+
+> “C++ compilation is automated using a FastAPI lifespan event.”
+
+---
+
+## Q: Why was lifespan used instead of `on_event`?
+
+**A:**
+
+Lifespan is used because `on_event` is deprecated and lifespan provides a modern and flexible way to manage application startup and shutdown events.
+
+**One-line:**
+
+> “Lifespan replaces deprecated startup events and provides better lifecycle control.”
+
+---
+
+## Q: Why is `cwd` used in subprocess while building?
+
+**A:**
+
+`cwd` ensures that the build script runs from the project root so that relative paths to source files remain valid.
+
+**One-line:**
+
+> “`cwd` ensures correct execution context for relative paths.”
+
+---
+
+## Q: How does FastAPI communicate with the scheduler?
+
+**A:**
+
+FastAPI executes the scheduler binary using `subprocess`, passes input via stdin, and parses the JSON output.
+
+**One-line:**
+
+> “FastAPI interacts with the scheduler via subprocess using stdin and JSON output.”
+
+---
+
+
+
+
+
+

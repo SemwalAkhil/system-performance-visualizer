@@ -23,6 +23,10 @@
     - [Explanation](#explanation-4)
     - [Educational benefit](#educational-benefit)
     - [One-line viva answer](#one-line-viva-answer-5)
+  - [Q: What is FCFS scheduling?](#q-what-is-fcfs-scheduling)
+  - [Q: How are scheduling parameters calculated?](#q-how-are-scheduling-parameters-calculated)
+  - [Q: Why does CPU remain idle in FCFS?](#q-why-does-cpu-remain-idle-in-fcfs)
+  - [Q: Why is sorting required in FCFS?](#q-why-is-sorting-required-in-fcfs)
 
 
 ## Q: What is CPU scheduling?
@@ -211,3 +215,55 @@ The project demonstrates allocation strategies such as:
 ### One-line viva answer
 
 > “Memory allocation is simulated because real memory management is kernel-controlled.”
+
+---
+
+## Q: What is FCFS scheduling?
+
+**A:**
+
+FCFS (First Come First Serve) is a non-preemptive scheduling algorithm where processes are executed in the order of their arrival time.
+
+**One-line:**
+
+> “FCFS executes processes in arrival order without preemption.”
+
+---
+
+## Q: How are scheduling parameters calculated?
+
+**A:**
+
+* Completion Time = finish time
+* Turnaround Time = Completion − Arrival
+* Waiting Time = Turnaround − Burst
+
+**One-line:**
+
+> “TAT = CT − AT and WT = TAT − BT.”
+
+---
+
+## Q: Why does CPU remain idle in FCFS?
+
+**A:**
+
+If no process has arrived, the CPU remains idle until the first process enters the ready queue.
+
+**One-line:**
+
+> “CPU stays idle if no process is available.”
+
+---
+
+## Q: Why is sorting required in FCFS?
+
+**A:**
+
+Sorting ensures processes are executed in order of arrival time, which is the core principle of FCFS.
+
+**One-line:**
+
+> “Sorting enforces correct execution order.”
+
+---

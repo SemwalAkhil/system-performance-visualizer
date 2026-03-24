@@ -62,6 +62,9 @@
   - [Q: What is a Dev Container?](#q-what-is-a-dev-container)
     - [Explanation](#explanation-7)
     - [One-line viva answer](#one-line-viva-answer-22)
+  - [Q: Why is C++ used for scheduling instead of Python?](#q-why-is-c-used-for-scheduling-instead-of-python)
+  - [Q: Why is JSON used for communication?](#q-why-is-json-used-for-communication)
+  - [Q: Why not parse JSON using external libraries in C++?](#q-why-not-parse-json-using-external-libraries-in-c)
 
 
 ## Decision: Use Linux instead of Windows
@@ -605,3 +608,41 @@ their local machine configuration.
 ### One-line viva answer
 
 > “A Dev Container defines a reproducible development environment using Docker.”
+
+---
+
+## Q: Why is C++ used for scheduling instead of Python?
+
+**A:**
+
+C++ is used to maintain consistency with the system-level implementation and provide efficient computation.
+
+**One-line:**
+
+> “C++ ensures performance and consistency with system-level design.”
+
+---
+
+## Q: Why is JSON used for communication?
+
+**A:**
+
+JSON is lightweight, structured, and language-independent, making it ideal for communication between C++ and Python.
+
+**One-line:**
+
+> “JSON enables structured cross-language communication.”
+
+---
+
+## Q: Why not parse JSON using external libraries in C++?
+
+**A:**
+
+External libraries were avoided to keep the project lightweight and dependency-free.
+
+**One-line:**
+
+> “Manual parsing avoids external dependencies.”
+
+---

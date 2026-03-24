@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <sstream> 
+#include <regex>
 using namespace std;
 
 /*
@@ -99,16 +100,33 @@ string toJSON(const vector<Process>& processes) {
 */
 int main() {
 
-    vector<Process> processes = {
-        {1, 0, 5},
-        {2, 1, 3},
-        {3, 2, 8},
-        {4, 3, 6}
-    };
+    string input;
+    getline(cin, input);
+
+    vector<Process> processes;
+
+    /*
+        Use regex to safely extract values from JSON
+    */
+    regex pattern(R"(\{\s*"id"\s*:\s*(\d+)\s*,\s*"arrival"\s*:\s*(\d+)\s*,\s*"burst"\s*:\s*(\d+)\s*\})");
+    smatch match;
+    
+    string::const_iterator searchStart(input.cbegin());
+    
+    while (regex_search(searchStart, input.cend(), match, pattern)) {
+        Process p;
+    
+        p.id = stoi(match[1]);
+        p.arrival = stoi(match[2]);
+        p.burst = stoi(match[3]);
+    
+        processes.push_back(p);
+    
+        searchStart = match.suffix().first;
+    }
 
     fcfs(processes);
 
-    // Output JSON instead of table
     cout << toJSON(processes);
 
     return 0;

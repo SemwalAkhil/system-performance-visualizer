@@ -127,6 +127,12 @@
   - [Q: Why is a reproducible development environment important?](#q-why-is-a-reproducible-development-environment-important)
     - [Explanation](#explanation-37)
     - [One-line viva answer](#one-line-viva-answer-38)
+  - [Q: How is scheduler output integrated with the backend?](#q-how-is-scheduler-output-integrated-with-the-backend)
+    - [One-line](#one-line)
+  - [Q: Explain the complete workflow of your scheduler system.](#q-explain-the-complete-workflow-of-your-scheduler-system)
+  - [Q: What problem did you face while parsing input?](#q-what-problem-did-you-face-while-parsing-input)
+  - [Q: Why was regex used instead of sscanf?](#q-why-was-regex-used-instead-of-sscanf)
+  - [Q: What happens if parsing fails?](#q-what-happens-if-parsing-fails)
 
 
 ## Q: Is this project platform-dependent?
@@ -1060,3 +1066,65 @@ environment, preventing configuration-related issues.
 ### One-line viva answer
 
 > “Reproducible environments ensure consistent behavior across different development systems.”
+
+---
+
+## Q: How is scheduler output integrated with the backend?
+
+**A:**
+
+The scheduler outputs results in JSON format, which the FastAPI backend parses and exposes via an API endpoint.
+
+### One-line
+
+> “Scheduler results are converted to JSON and returned through a REST API.”
+
+---
+
+## Q: Explain the complete workflow of your scheduler system.
+
+**A:**
+
+The user inputs processes in the frontend, which are sent as JSON to the FastAPI backend. The backend passes this data to the C++ scheduler via stdin, processes it, and returns results as JSON, which are displayed in the UI.
+
+**One-line:**
+
+> “Frontend → FastAPI → C++ → JSON → UI.”
+
+---
+
+## Q: What problem did you face while parsing input?
+
+**A:**
+
+Initial parsing failed due to strict formatting and whitespace issues, which was resolved using flexible regex.
+
+**One-line:**
+
+> “Parsing failed due to strict format and was fixed using flexible regex.”
+
+---
+
+## Q: Why was regex used instead of sscanf?
+
+**A:**
+
+Regex provides more flexible and reliable parsing compared to `sscanf`, which is sensitive to formatting.
+
+**One-line:**
+
+> “Regex handles flexible input better than sscanf.”
+
+---
+
+## Q: What happens if parsing fails?
+
+**A:**
+
+No processes are extracted, resulting in empty output from the scheduler.
+
+**One-line:**
+
+> “Parsing failure leads to empty scheduler output.”
+
+---
