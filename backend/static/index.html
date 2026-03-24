@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>System Monitor</title>
+</head>
+
+<body>
+
+    <h1>System Performance</h1>
+
+    <p>CPU Usage: <span id="cpu">0</span>%</p>
+    <p>Memory Usage: <span id="memory">0</span>%</p>
+
+    <script>
+        async function fetchStats() {
+            const res = await fetch('/api/stats');
+            const data = await res.json();
+
+            document.getElementById('cpu').innerText = data.cpu.toFixed(2);
+            document.getElementById('memory').innerText = data.memory.toFixed(2);
+        }
+
+        // refresh every 1 second
+        setInterval(fetchStats, 1000);
+
+        // initial load
+        fetchStats();
+    </script>
+
+</body>
+
+</html>

@@ -5,132 +5,128 @@
     - [Explanation](#explanation)
     - [Design advantage](#design-advantage)
     - [One-line viva answer](#one-line-viva-answer)
-  - [Q: Why is Qt chosen for GUI?](#q-why-is-qt-chosen-for-gui)
-    - [Explanation](#explanation-1)
-    - [Academic relevance](#academic-relevance)
-    - [One-line viva answer](#one-line-viva-answer-1)
   - [Q: Can this project run on Windows?](#q-can-this-project-run-on-windows)
-    - [Explanation](#explanation-2)
+    - [Explanation](#explanation-1)
     - [Design benefit](#design-benefit)
-    - [One-line viva answer](#one-line-viva-answer-2)
+    - [One-line viva answer](#one-line-viva-answer-1)
   - [Q: Is this a real-time system?](#q-is-this-a-real-time-system)
-    - [Explanation](#explanation-3)
+    - [Explanation](#explanation-2)
     - [Important distinction](#important-distinction)
-    - [One-line viva answer](#one-line-viva-answer-3)
+    - [One-line viva answer](#one-line-viva-answer-2)
   - [Q: How is this project useful academically?](#q-how-is-this-project-useful-academically)
-    - [Explanation](#explanation-4)
+    - [Explanation](#explanation-3)
     - [Educational value](#educational-value)
-    - [One-line viva answer](#one-line-viva-answer-4)
+    - [One-line viva answer](#one-line-viva-answer-3)
   - [Q: How can I view README / Markdown files in VS Code exactly as they appear on GitHub?](#q-how-can-i-view-readme--markdown-files-in-vs-code-exactly-as-they-appear-on-github)
     - [1️⃣ Built-in Markdown Preview (MANDATORY)](#1️⃣-built-in-markdown-preview-mandatory)
       - [How to use:](#how-to-use)
   - [Q: What issues did you face while setting up Git in Linux (WSL)?](#q-what-issues-did-you-face-while-setting-up-git-in-linux-wsl)
-    - [Explanation](#explanation-5)
+    - [Explanation](#explanation-4)
     - [Solution](#solution)
-    - [One-line viva answer](#one-line-viva-answer-5)
+    - [One-line viva answer](#one-line-viva-answer-4)
   - [Q: Why did Git ask for username and password while pushing to GitHub?](#q-why-did-git-ask-for-username-and-password-while-pushing-to-github)
+    - [Explanation](#explanation-5)
+    - [One-line viva answer](#one-line-viva-answer-5)
+  - [Q: Why can’t GitHub password be used for Git push?](#q-why-cant-github-password-be-used-for-git-push)
     - [Explanation](#explanation-6)
     - [One-line viva answer](#one-line-viva-answer-6)
-  - [Q: Why can’t GitHub password be used for Git push?](#q-why-cant-github-password-be-used-for-git-push)
+  - [Q: What is a Personal Access Token (PAT)?](#q-what-is-a-personal-access-token-pat)
     - [Explanation](#explanation-7)
     - [One-line viva answer](#one-line-viva-answer-7)
-  - [Q: What is a Personal Access Token (PAT)?](#q-what-is-a-personal-access-token-pat)
+  - [Q: Why was a `.env.local` file used to store the GitHub PAT?](#q-why-was-a-envlocal-file-used-to-store-the-github-pat)
     - [Explanation](#explanation-8)
     - [One-line viva answer](#one-line-viva-answer-8)
-  - [Q: Why was a `.env.local` file used to store the GitHub PAT?](#q-why-was-a-envlocal-file-used-to-store-the-github-pat)
-    - [Explanation](#explanation-9)
-    - [One-line viva answer](#one-line-viva-answer-9)
   - [Q: Should `.env.local` be committed to GitHub?](#q-should-envlocal-be-committed-to-github)
-    - [Explanation](#explanation-10)
+    - [Explanation](#explanation-9)
     - [Correct practice](#correct-practice)
-    - [One-line viva answer](#one-line-viva-answer-10)
+    - [One-line viva answer](#one-line-viva-answer-9)
   - [Q: What happens if a Personal Access Token is accidentally exposed?](#q-what-happens-if-a-personal-access-token-is-accidentally-exposed)
+    - [Explanation](#explanation-10)
+    - [One-line viva answer](#one-line-viva-answer-10)
+  - [Q: How did you work on the project from multiple systems?](#q-how-did-you-work-on-the-project-from-multiple-systems)
     - [Explanation](#explanation-11)
     - [One-line viva answer](#one-line-viva-answer-11)
-  - [Q: How did you work on the project from multiple systems?](#q-how-did-you-work-on-the-project-from-multiple-systems)
+  - [Q: Why was GitHub chosen instead of file transfer methods?](#q-why-was-github-chosen-instead-of-file-transfer-methods)
     - [Explanation](#explanation-12)
     - [One-line viva answer](#one-line-viva-answer-12)
-  - [Q: Why was GitHub chosen instead of file transfer methods?](#q-why-was-github-chosen-instead-of-file-transfer-methods)
+  - [Q: How do you avoid conflicts when working from multiple systems?](#q-how-do-you-avoid-conflicts-when-working-from-multiple-systems)
     - [Explanation](#explanation-13)
     - [One-line viva answer](#one-line-viva-answer-13)
-  - [Q: How do you avoid conflicts when working from multiple systems?](#q-how-do-you-avoid-conflicts-when-working-from-multiple-systems)
+  - [Q: Is internet connectivity required at all times?](#q-is-internet-connectivity-required-at-all-times)
     - [Explanation](#explanation-14)
     - [One-line viva answer](#one-line-viva-answer-14)
-  - [Q: Is internet connectivity required at all times?](#q-is-internet-connectivity-required-at-all-times)
+  - [Q: How are sensitive files handled in this workflow?](#q-how-are-sensitive-files-handled-in-this-workflow)
     - [Explanation](#explanation-15)
     - [One-line viva answer](#one-line-viva-answer-15)
-  - [Q: How are sensitive files handled in this workflow?](#q-how-are-sensitive-files-handled-in-this-workflow)
+  - [Q: Why was Git asking for username and password on every `git push`?](#q-why-was-git-asking-for-username-and-password-on-every-git-push)
     - [Explanation](#explanation-16)
     - [One-line viva answer](#one-line-viva-answer-16)
-  - [Q: Why was Git asking for username and password on every `git push`?](#q-why-was-git-asking-for-username-and-password-on-every-git-push)
+  - [Q: Why did installing `git-credential-manager` fail on Kali Linux?](#q-why-did-installing-git-credential-manager-fail-on-kali-linux)
     - [Explanation](#explanation-17)
     - [One-line viva answer](#one-line-viva-answer-17)
-  - [Q: Why did installing `git-credential-manager` fail on Kali Linux?](#q-why-did-installing-git-credential-manager-fail-on-kali-linux)
+  - [Q: How was the repeated authentication problem solved on Kali Linux?](#q-how-was-the-repeated-authentication-problem-solved-on-kali-linux)
     - [Explanation](#explanation-18)
     - [One-line viva answer](#one-line-viva-answer-18)
-  - [Q: How was the repeated authentication problem solved on Kali Linux?](#q-how-was-the-repeated-authentication-problem-solved-on-kali-linux)
+  - [Q: Why was credential caching chosen instead of storing credentials permanently?](#q-why-was-credential-caching-chosen-instead-of-storing-credentials-permanently)
     - [Explanation](#explanation-19)
     - [One-line viva answer](#one-line-viva-answer-19)
-  - [Q: Why was credential caching chosen instead of storing credentials permanently?](#q-why-was-credential-caching-chosen-instead-of-storing-credentials-permanently)
+  - [Q: Does Git use `.env.local` for authentication?](#q-does-git-use-envlocal-for-authentication)
     - [Explanation](#explanation-20)
     - [One-line viva answer](#one-line-viva-answer-20)
-  - [Q: Does Git use `.env.local` for authentication?](#q-does-git-use-envlocal-for-authentication)
+  - [Q: What is the long-term recommended authentication method for GitHub?](#q-what-is-the-long-term-recommended-authentication-method-for-github)
     - [Explanation](#explanation-21)
     - [One-line viva answer](#one-line-viva-answer-21)
-  - [Q: What is the long-term recommended authentication method for GitHub?](#q-what-is-the-long-term-recommended-authentication-method-for-github)
+  - [Q: How did you organize and navigate large documentation files efficiently?](#q-how-did-you-organize-and-navigate-large-documentation-files-efficiently)
     - [Explanation](#explanation-22)
     - [One-line viva answer](#one-line-viva-answer-22)
-  - [Q: How did you organize and navigate large documentation files efficiently?](#q-how-did-you-organize-and-navigate-large-documentation-files-efficiently)
+  - [Q: How do you jump directly to a specific question without scrolling?](#q-how-do-you-jump-directly-to-a-specific-question-without-scrolling)
     - [Explanation](#explanation-23)
     - [One-line viva answer](#one-line-viva-answer-23)
-  - [Q: How do you jump directly to a specific question without scrolling?](#q-how-do-you-jump-directly-to-a-specific-question-without-scrolling)
+  - [Q: What tool did you use to generate tables of contents?](#q-what-tool-did-you-use-to-generate-tables-of-contents)
     - [Explanation](#explanation-24)
     - [One-line viva answer](#one-line-viva-answer-24)
-  - [Q: What tool did you use to generate tables of contents?](#q-what-tool-did-you-use-to-generate-tables-of-contents)
+  - [Q: Why is a separate `docs/viva/README.md` file used?](#q-why-is-a-separate-docsvivareadmemd-file-used)
     - [Explanation](#explanation-25)
     - [One-line viva answer](#one-line-viva-answer-25)
-  - [Q: Why is a separate `docs/viva/README.md` file used?](#q-why-is-a-separate-docsvivareadmemd-file-used)
+  - [Q: Why is this approach better than a single long README file?](#q-why-is-this-approach-better-than-a-single-long-readme-file)
     - [Explanation](#explanation-26)
     - [One-line viva answer](#one-line-viva-answer-26)
-  - [Q: Why is this approach better than a single long README file?](#q-why-is-this-approach-better-than-a-single-long-readme-file)
+  - [Q: Why was the project shifted from a standalone application to a web application?](#q-why-was-the-project-shifted-from-a-standalone-application-to-a-web-application)
     - [Explanation](#explanation-27)
     - [One-line viva answer](#one-line-viva-answer-27)
-  - [Q: Why was the project shifted from a standalone application to a web application?](#q-why-was-the-project-shifted-from-a-standalone-application-to-a-web-application)
+  - [Q: Why was the existing C++ code not discarded when moving to a web application?](#q-why-was-the-existing-c-code-not-discarded-when-moving-to-a-web-application)
     - [Explanation](#explanation-28)
     - [One-line viva answer](#one-line-viva-answer-28)
-  - [Q: Why was the existing C++ code not discarded when moving to a web application?](#q-why-was-the-existing-c-code-not-discarded-when-moving-to-a-web-application)
+  - [Q: How does the project satisfy the requirement of being fully cloud-based?](#q-how-does-the-project-satisfy-the-requirement-of-being-fully-cloud-based)
     - [Explanation](#explanation-29)
     - [One-line viva answer](#one-line-viva-answer-29)
-  - [Q: How does the project satisfy the requirement of being fully cloud-based?](#q-how-does-the-project-satisfy-the-requirement-of-being-fully-cloud-based)
+  - [Q: How do CPU and memory values change dynamically on the web interface?](#q-how-do-cpu-and-memory-values-change-dynamically-on-the-web-interface)
     - [Explanation](#explanation-30)
     - [One-line viva answer](#one-line-viva-answer-30)
-  - [Q: How do CPU and memory values change dynamically on the web interface?](#q-how-do-cpu-and-memory-values-change-dynamically-on-the-web-interface)
+  - [Q: Why were WebSockets, Server-Sent Events, or Streaming not used?](#q-why-were-websockets-server-sent-events-or-streaming-not-used)
     - [Explanation](#explanation-31)
     - [One-line viva answer](#one-line-viva-answer-31)
-  - [Q: Why were WebSockets, Server-Sent Events, or Streaming not used?](#q-why-were-websockets-server-sent-events-or-streaming-not-used)
+  - [Q: Can the project directly control CPU or memory usage?](#q-can-the-project-directly-control-cpu-or-memory-usage)
     - [Explanation](#explanation-32)
     - [One-line viva answer](#one-line-viva-answer-32)
-  - [Q: Can the project directly control CPU or memory usage?](#q-can-the-project-directly-control-cpu-or-memory-usage)
+  - [Q: Why is a Linux cloud VM used instead of serverless platforms?](#q-why-is-a-linux-cloud-vm-used-instead-of-serverless-platforms)
     - [Explanation](#explanation-33)
     - [One-line viva answer](#one-line-viva-answer-33)
-  - [Q: Why is a Linux cloud VM used instead of serverless platforms?](#q-why-is-a-linux-cloud-vm-used-instead-of-serverless-platforms)
-    - [Explanation](#explanation-34)
-    - [One-line viva answer](#one-line-viva-answer-34)
   - [Q: How is project progress tracked and managed?](#q-how-is-project-progress-tracked-and-managed)
-    - [Explanation](#explanation-35)
+    - [Explanation](#explanation-34)
   - [Q: Why is the C++ engine designed to output JSON only?](#q-why-is-the-c-engine-designed-to-output-json-only)
+    - [Explanation](#explanation-35)
+    - [One-line viva answer](#one-line-viva-answer-34)
+  - [Q: Why is the compiled C++ binary stored in a dedicated `bin/` directory?](#q-why-is-the-compiled-c-binary-stored-in-a-dedicated-bin-directory)
     - [Explanation](#explanation-36)
     - [One-line viva answer](#one-line-viva-answer-35)
-  - [Q: Why is the compiled C++ binary stored in a dedicated `bin/` directory?](#q-why-is-the-compiled-c-binary-stored-in-a-dedicated-bin-directory)
-    - [Explanation](#explanation-37)
-    - [One-line viva answer](#one-line-viva-answer-36)
   - [Q: Why are development tools and build artifacts excluded using `.gitignore`?](#q-why-are-development-tools-and-build-artifacts-excluded-using-gitignore)
-    - [One-line viva answer](#one-line-viva-answer-37)
+    - [One-line viva answer](#one-line-viva-answer-36)
   - [Q: Why are environment files such as `.env.local` ignored?](#q-why-are-environment-files-such-as-envlocal-ignored)
-    - [One-line viva answer](#one-line-viva-answer-38)
+    - [One-line viva answer](#one-line-viva-answer-37)
   - [Q: Why is a reproducible development environment important?](#q-why-is-a-reproducible-development-environment-important)
-    - [Explanation](#explanation-38)
-    - [One-line viva answer](#one-line-viva-answer-39)
+    - [Explanation](#explanation-37)
+    - [One-line viva answer](#one-line-viva-answer-38)
 
 
 ## Q: Is this project platform-dependent?
@@ -163,40 +159,6 @@ In this project:
 ### One-line viva answer
 
 > “The core logic is platform-independent; only system monitoring is OS-specific.”
-
----
-
-## Q: Why is Qt chosen for GUI?
-
-**A:**  
-Qt is chosen because it provides **cross-platform GUI support** and integrates naturally with C++.
-
----
-
-### Explanation
-
-Qt offers:
-
-- Native C++ support
-- Rich GUI widgets
-- Signal–slot mechanism for event handling
-- Cross-platform compatibility (Linux, Windows, macOS)
-
-It allows the GUI to remain separate from system and core logic.
-
----
-
-### Academic relevance
-
-- Matches Computer Graphics and OOP concepts
-- Widely used in industry
-- Suitable for desktop-based academic projects
-
----
-
-### One-line viva answer
-
-> “Qt is chosen for its cross-platform support, C++ integration, and rich GUI features.”
 
 ---
 
