@@ -322,3 +322,13 @@ def memory_stop():
         return {"status": "Memory load stopped"}
     except Exception as e:
         return {"error": str(e)}
+
+# =====================================================
+# ENTRY POINT (FOR CLOUD DEPLOYMENT)
+# =====================================================
+
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+
