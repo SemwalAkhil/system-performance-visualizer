@@ -1,23 +1,79 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from contextlib import asynccontextmanager
 import subprocess
 import json
 import os
-from contextlib import asynccontextmanager
+import threading
+import time
+from typing import List, Dict, Any
 
+# =====================================================
+# CONFIG
+# =====================================================
+
+PROJECT_ROOT = os.path.abspath("..")
+BIN_DIR = os.path.join(PROJECT_ROOT, "bin")
+SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
+
+SYSTEM_MONITOR_BIN = os.path.join(BIN_DIR, "system_monitor")
+FCFS_BIN = os.path.join(BIN_DIR, "fcfs")
+BUILD_SCRIPT = os.path.join(SCRIPTS_DIR, "build.sh")
+
+# Load tuning
+CPU_STEP = max(1, (os.cpu_count() or 1) // 4)
+MEM_BLOCK_SIZE = 10 * 1024 * 1024  # 10 MB
+MEM_STEP = 5
+
+# =====================================================
+# GLOBAL STATE
+# =====================================================
+
+execution_thread: threading.Thread | None = None
+is_running: bool = False
+current_process: int | None = None  # currently executing process id
+execution_done: bool = False  # 🔥 NEW FLAG
+
+cpu_processes: List[subprocess.Popen] = []
+memory_blocks: List[bytearray] = []
+
+# =====================================================
+# UTILITIES
+# =====================================================
+
+def run_binary(path: str, input_data: str | None = None) -> Dict[str, Any]:
+    """Run a compiled C++ binary and return parsed JSON output."""
+    result = subprocess.run(
+        [path],
+        input=input_data,
+        capture_output=True,
+        text=True
+    )
+
+    output = (result.stdout or "").strip()
+
+    if not output:
+        return {"error": "Empty output", "stderr": result.stderr}
+
+    try:
+        return json.loads(output)
+    except json.JSONDecodeError:
+        return {"error": "Invalid JSON from binary", "raw": output}
+
+
+# =====================================================
+# APP LIFESPAN (BUILD C++ ON START)
+# =====================================================
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        project_root = os.path.abspath("..")
-
-        build_script = os.path.join(project_root, "scripts/build.sh")
-
-        subprocess.run(["chmod", "+x", build_script])
+        subprocess.run(["chmod", "+x", BUILD_SCRIPT])
 
         result = subprocess.run(
-            [build_script],
-            cwd=project_root,
+            [BUILD_SCRIPT],
+            cwd=PROJECT_ROOT,
             capture_output=True,
             text=True
         )
@@ -34,78 +90,235 @@ async def lifespan(app: FastAPI):
 
     yield
 
+
 app = FastAPI(lifespan=lifespan)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# =====================================================
+# ROUTES
+# =====================================================
 
 @app.get("/")
 def home():
     return FileResponse("static/index.html")
 
+
 @app.get("/api/stats")
 def get_stats():
+    """Return CPU and memory usage from system_monitor binary."""
     try:
-        binary_path = os.path.abspath("../bin/system_monitor")
-
-        result = subprocess.run(
-            [binary_path],
-            capture_output=True,
-            text=True
-        )
-
-        output = result.stdout.strip()
-
-        if not output:
-            return {"error": "Empty output", "stderr": result.stderr}
-
-        return json.loads(output)
-
+        return run_binary(SYSTEM_MONITOR_BIN)
     except Exception as e:
         return {"error": str(e)}
 
-@app.get("/api/scheduler")
-def get_scheduler():
-    try:
-        binary_path = os.path.abspath("../bin/fcfs")
 
-        result = subprocess.run(
-            [binary_path],
-            capture_output=True,
-            text=True
-        )
+@app.get("/api/current")
+def get_current_process():
+    """Return currently executing process id and execution status."""
+    return {
+        "current": current_process,
+        "done": execution_done
+    }
 
-        output = result.stdout.strip()
 
-        if not output:
-            return {"error": "Empty output", "stderr": result.stderr}
+# =====================================================
+# SCHEDULER EXECUTION ENGINE (REAL-TIME LOAD)
+# =====================================================
 
-        return json.loads(output)
 
-    except Exception as e:
-        return {"error": str(e)}
-    
+def execute_processes(processes: List[Dict[str, Any]]):
+    """
+    Execute processes using FCFS order (sorted by arrival time).
+    Simulates CPU + memory load and updates current_process for UI sync.
+    """
+    global is_running, current_process, execution_done
+
+    is_running = True
+    execution_done = False
+
+    # Ensure FCFS order
+    processes_sorted = sorted(processes, key=lambda p: p.get("arrival", 0))
+
+    current_time = 0
+
+    for p in processes_sorted:
+        if not is_running:
+            break
+
+        arrival = int(p.get("arrival", 0))
+        burst = max(1, int(p.get("burst", 1)))
+
+        # If CPU is idle, wait until next arrival
+        if current_time < arrival:
+            idle_time = arrival - current_time
+            current_process = None  # mark idle
+            time.sleep(idle_time)
+            current_time = arrival
+
+        # Mark running process
+        current_process = int(p.get("id"))
+
+        cpu_add()
+        memory_add()
+
+        # Execute
+        time.sleep(burst)
+        current_time += burst
+
+        cpu_reduce()
+        memory_reduce()
+
+    # Reset after execution
+    current_process = None
+    is_running = False
+    execution_done = True
+
+
+
+def start_execution(processes: List[Dict[str, Any]]):
+    """Start execution in a background thread (daemon)."""
+    global execution_thread
+
+    stop_execution()
+
+    execution_thread = threading.Thread(
+        target=execute_processes,
+        args=(processes,),
+        daemon=True
+    )
+    execution_thread.start()
+
+
+
+def stop_execution():
+    """Stop current execution safely."""
+    global is_running, current_process
+
+    is_running = False
+    current_process = None
+
+
+# =====================================================
+# SCHEDULER API
+# =====================================================
+
 @app.post("/api/scheduler")
 async def run_scheduler(request: Request):
+    """
+    1) Calls FCFS C++ binary to compute metrics
+    2) Starts real-time execution simulation
+    """
+    global is_running
+
     try:
         processes = await request.json()
 
-        binary_path = os.path.abspath("../bin/fcfs")
+        # 🔥 BACKEND VALIDATION
+        if not isinstance(processes, list):
+            return {"error": "Invalid input format"}
 
-        # Convert input to string format for CLI
-        input_data = json.dumps(processes)
-        
-        result = subprocess.run(
-            [binary_path],
-            input=input_data,
-            capture_output=True,
-            text=True
-        )
+        for p in processes:
+            if not all(k in p for k in ("id", "arrival", "burst")):
+                return {"error": "Invalid process structure"}
 
-        output = result.stdout.strip()
-        print(f"Scheduler input: {input_data}")
-        print(f"Scheduler output: {output}")
-        if not output:
-            return {"error": "Empty output", "stderr": result.stderr}
+        # 🔥 PREVENT MULTIPLE EXECUTIONS
+        if is_running:
+            return {"error": "Execution already running"}
 
-        return json.loads(output)
+        data = run_binary(FCFS_BIN, json.dumps(processes))
 
+        if "error" in data:
+            return data
+
+        # Start execution AFTER computing schedule
+        start_execution(processes)
+
+        return data
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# =====================================================
+# CPU LOAD CONTROL (INCREMENTAL)
+# =====================================================
+
+@app.post("/api/load/cpu/add")
+def cpu_add():
+    """Increase CPU load by spawning 'yes' processes."""
+    global cpu_processes
+    try:
+        for _ in range(CPU_STEP):
+            p = subprocess.Popen(["yes"], stdout=subprocess.DEVNULL)
+            cpu_processes.append(p)
+        return {"status": "CPU load increased", "running_processes": len(cpu_processes)}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.post("/api/load/cpu/reduce")
+def cpu_reduce():
+    """Reduce CPU load by terminating some processes."""
+    global cpu_processes
+    try:
+        to_kill = min(CPU_STEP, len(cpu_processes))
+        for _ in range(to_kill):
+            p = cpu_processes.pop()
+            p.terminate()
+            p.wait()  # 🔥 prevent zombie process
+        return {"status": "CPU load reduced", "running_processes": len(cpu_processes)}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.post("/api/load/cpu/stop")
+def cpu_stop():
+    """Stop all CPU load processes."""
+    global cpu_processes
+    try:
+        for p in cpu_processes:
+            p.terminate()
+            p.wait()  # 🔥 prevent zombie process
+        cpu_processes.clear()
+        return {"status": "CPU load stopped"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# =====================================================
+# MEMORY LOAD CONTROL (INCREMENTAL)
+# =====================================================
+
+@app.post("/api/load/memory/add")
+def memory_add():
+    """Increase memory usage by allocating byte arrays."""
+    global memory_blocks
+    try:
+        for _ in range(MEM_STEP):
+            memory_blocks.append(bytearray(MEM_BLOCK_SIZE))
+        return {"status": "Memory load increased"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.post("/api/load/memory/reduce")
+def memory_reduce():
+    """Reduce memory usage by freeing allocated blocks."""
+    global memory_blocks
+    try:
+        for _ in range(min(MEM_STEP, len(memory_blocks))):
+            memory_blocks.pop()
+        return {"status": "Memory load reduced"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.post("/api/load/memory/stop")
+def memory_stop():
+    """Free all allocated memory blocks."""
+    global memory_blocks
+    try:
+        memory_blocks.clear()
+        return {"status": "Memory load stopped"}
     except Exception as e:
         return {"error": str(e)}

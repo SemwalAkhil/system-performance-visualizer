@@ -1,134 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>System Monitor</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Performance Visualizer</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Barlow:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <h1>System Performance</h1>
+    <div class="shell">
 
-    <p>CPU Usage: <span id="cpu">0</span>%</p>
-    <p>Memory Usage: <span id="memory">0</span>%</p>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">⚡</div>
+                <span>SYS<br>MONITOR</span>
+            </div>
 
-    <h2>Enter Processes</h2>
+            <nav class="nav-section">
+                <div class="nav-label">Navigation</div>
+                <a class="nav-item active">Dashboard</a>
+                <a class="nav-item">System Stats</a>
+                <a class="nav-item">Scheduling</a>
+                <a class="nav-item">Load</a>
+            </nav>
 
-    <div id="process-inputs">
-        <div>
-            Arrival: <input type="number" class="arrival" />
-            Burst: <input type="number" class="burst" />
-        </div>
+            <div class="sidebar-footer">
+                <div class="status-dot">
+                    <div class="dot"></div>
+                    LIVE
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+
+            <!-- Topbar -->
+            <header class="topbar">
+                <h1>SYSTEM <span>VISUALIZER</span></h1>
+                <div class="topbar-meta">
+                    <div id="clock">--:--:--</div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+
+                <!-- Charts -->
+                <div class="charts-row">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">CPU Usage</div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="cpuChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Memory Usage</div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="memoryChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Load Control -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Load Control</div>
+                    </div>
+                    <div class="card-body">
+
+                        <h4>CPU Load</h4>
+                        <button onclick="cpuAdd()">Increase CPU</button>
+                        <button onclick="cpuReduce()">Reduce CPU</button>
+                        <button onclick="cpuStop()">Stop CPU</button>
+
+                        <hr>
+
+                        <h4>Memory Load</h4>
+                        <button onclick="memoryAdd()">Increase Memory</button>
+                        <button onclick="memoryReduce()">Reduce Memory</button>
+                        <button onclick="memoryStop()">Stop Memory</button>
+
+                    </div>
+                </div>
+
+                <!-- Scheduler Controls -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Process Input</div>
+                    </div>
+                    <div class="card-body">
+
+                        <div id="process-inputs">
+                            <div class="proc-row">
+                                Arrival: <input type="number" class="arrival" />
+                                Burst: <input type="number" class="burst" />
+                            </div>
+                        </div>
+
+                        <button onclick="addProcess()">Add Process</button>
+                        <button id="run-btn" onclick="runScheduler()">Run FCFS</button>
+
+                    </div>
+                </div>
+
+                <!-- Output -->
+                <div class="output-row">
+
+                    <!-- Gantt -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Gantt Chart</div>
+                            <div id="current-process" style="margin-top:5px"></div>
+                        </div>
+                        <div class=" card-body">
+                            <div id="gantt-container">
+                                <div id="gantt"></div>
+                                <div id="timeline"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Scheduling Table</div>
+                        </div>
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Arrival</th>
+                                        <th>Burst</th>
+                                        <th>Start</th>
+                                        <th>Completion</th>
+                                        <th>Waiting</th>
+                                        <th>Turnaround</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scheduler-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
     </div>
-    
-    <button onclick="addProcess()">Add Process</button>
-    <button onclick="runScheduler()">Run FCFS</button>
 
-    <h2>FCFS Scheduling</h2>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Arrival</th>
-                <th>Burst</th>
-                <th>Completion</th>
-                <th>Waiting</th>
-                <th>Turnaround</th>
-            </tr>
-        </thead>
-        <tbody id="scheduler-body">
-        </tbody>
-    </table>
+    <!-- JS -->
 
     <script>
-        async function fetchStats() {
-            const res = await fetch('/api/stats');
-            const data = await res.json();
-
-            document.getElementById('cpu').innerText = data.cpu.toFixed(2);
-            document.getElementById('memory').innerText = data.memory.toFixed(2);
-        }
-        async function fetchScheduler() {
-            const res = await fetch('/api/scheduler');
-            const data = await res.json();
-
-            const tbody = document.getElementById('scheduler-body');
-            tbody.innerHTML = "";
-
-            data.forEach(p => {
-                const row = `
-                    <tr>
-                        <td>${p.id}</td>
-                        <td>${p.arrival}</td>
-                        <td>${p.burst}</td>
-                        <td>${p.completion}</td>
-                        <td>${p.waiting}</td>
-                        <td>${p.turnaround}</td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-        function addProcess() {
-            const div = document.createElement("div");
-
-            div.innerHTML = `
-                Arrival: <input type="number" class="arrival" />
-                Burst: <input type="number" class="burst" />
-            `;
-
-            document.getElementById("process-inputs").appendChild(div);
-        }
-        async function runScheduler() {
-            const arrivals = document.querySelectorAll(".arrival");
-            const bursts = document.querySelectorAll(".burst");
-                
-            let processes = [];
-                
-            for (let i = 0; i < arrivals.length; i++) {
-                processes.push({
-                    id: i + 1,
-                    arrival: parseInt(arrivals[i].value),
-                    burst: parseInt(bursts[i].value)
-                });
-            }
-        
-            const res = await fetch('/api/scheduler', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(processes)
-            });
-        
-            const data = await res.json();
-        
-            const tbody = document.getElementById('scheduler-body');
-            tbody.innerHTML = "";
-        
-            data.forEach(p => {
-                const row = `
-                    <tr>
-                        <td>${p.id}</td>
-                        <td>${p.arrival}</td>
-                        <td>${p.burst}</td>
-                        <td>${p.completion}</td>
-                        <td>${p.waiting}</td>
-                        <td>${p.turnaround}</td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-
-        // refresh every 1 second
-        setInterval(fetchStats, 1000);
-
-        // initial load
-        fetchStats();
-
-        // Load scheduler only once
-        fetchScheduler();
+        // 🔥 GLOBAL CONFIG (shared across all scripts)
+        window.API_BASE = '/api';
     </script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/scheduler.js"></script>
+    <script src="/static/js/load.js"></script>
 
 </body>
 
