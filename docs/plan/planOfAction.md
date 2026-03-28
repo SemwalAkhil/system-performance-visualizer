@@ -29,8 +29,8 @@ The project combines:
 * Real memory usage monitoring using Linux `/proc/meminfo`
 * Web-based dashboard for visualization
 * Deployment on a Linux cloud virtual machine
-* CPU scheduling and memory allocation simulations
-* Controlled load generation for demonstration purposes
+* CPU scheduling (FCFS) simulation
+* Controlled CPU load generation for demonstration
 
 ### Excluded from Scope
 
@@ -50,6 +50,7 @@ The project combines:
 | Web Backend     | Python (FastAPI)            |
 | Web Server      | Uvicorn                     |
 | Frontend        | HTML, CSS, JavaScript       |
+| Visualization   | Chart.js                    |
 | Deployment      | Linux Cloud VM              |
 | Version Control | Git & GitHub                |
 | Dev Environment | Dev Containers + Codespaces |
@@ -82,13 +83,14 @@ The project combines:
 * Design of system monitor abstraction
 * Implementation of memory usage monitoring
 * Implementation of CPU usage calculation using `/proc/stat`
+* Fix using double-read CPU calculation method
 * Validation through stress testing
 
 **Deliverables**
 
 * C++ system monitoring engine
 * Verified CPU and memory metrics
-* Related viva documentation
+* Accurate real-time CPU measurement
 
 ---
 
@@ -109,71 +111,96 @@ The project combines:
 
 ---
 
-### Phase 4: Web Backend Development (In Progress)
+### Phase 4: Web Backend Development (Completed)
 
 **Activities**
 
-* Create Python web backend skeleton
-* Expose REST APIs for CPU and memory metrics
-* Integrate C++ engine with Python backend
-* Return system statistics in JSON format
+* Created FastAPI backend
+* Integrated C++ binaries using subprocess
+* Implemented API endpoints:
+
+  * `/api/stats`
+  * `/api/scheduler`
+* Added automatic C++ build on startup
 
 **Deliverables**
 
-* Working web backend
-* API endpoint `/api/stats`
+* Fully functional backend
+* JSON-based API communication
 
 ---
 
-### Phase 5: Web Frontend Development (Planned)
+### Phase 5: Web Frontend Development (Completed)
 
 **Activities**
 
-* Build basic web dashboard
-* Implement polling mechanism for live updates
-* Display CPU and memory charts
-* Ensure browser compatibility
+* Built dashboard UI
+* Integrated Chart.js for graphs
+* Implemented real-time polling
+* Displayed CPU and memory usage
+* Split frontend into HTML, CSS, JS modules
 
 **Deliverables**
 
-* Functional web UI
-* Live updating system metrics
+* Functional interactive UI
+* Real-time system monitoring dashboard
 
 ---
 
-### Phase 6: Scheduling & Memory Simulation (Planned)
+### Phase 6: Scheduling Simulation (Completed - FCFS)
 
 **Activities**
 
-* Implement FCFS scheduling simulation
-* Visualize scheduling results
-* Implement basic memory allocation strategies
-* Show fragmentation behavior
+* Implemented FCFS scheduling in C++
+* Parsed JSON input using regex
+* Generated scheduling metrics
+* Created timeline for execution visualization
+* Integrated with frontend (table + Gantt chart)
 
 **Deliverables**
 
-* Scheduling simulation module
-* Memory allocation simulation module
+* Working FCFS scheduler
+* Visual Gantt chart with animation
 
 ---
 
-### Phase 7: Load Generation Feature (Planned)
+### Phase 7: Load Generation Feature (Completed)
 
 **Activities**
 
-* Add controlled CPU load generation
-* Add controlled memory load generation
-* Auto-reset load after fixed duration
-* Integrate controls in web UI
+* Implemented CPU load generation using `yes` processes
+* Created API endpoints:
+
+  * `/api/load/start`
+  * `/api/load/stop`
+* Integrated load control in frontend UI
+* Verified real CPU spike in graphs
 
 **Deliverables**
 
-* Demonstration-ready load generation
-* Safe and reversible stress testing
+* Real system-level CPU load generation
+* Fully interactive demo feature
 
 ---
 
-### Phase 8: Cloud Deployment (Planned)
+### Phase 8: UI Enhancement & Integration (Completed)
+
+**Activities**
+
+* Redesigned UI into dashboard layout
+* Added sidebar and topbar
+* Improved styling using CSS
+* Connected load controls with UI
+* Removed fake CPU simulation logic
+
+**Deliverables**
+
+* Professional dashboard interface
+* Fully integrated system visualization
+
+---
+
+### Phase 9: Cloud Deployment (Pending)
 
 **Activities**
 
@@ -185,27 +212,25 @@ The project combines:
 **Deliverables**
 
 * Fully cloud-hosted web application
-* Deployment instructions
 
 ---
 
-### Phase 9: Testing & Validation (Planned)
+### Phase 10: Testing & Validation (In Progress)
 
 **Activities**
 
 * Functional testing of APIs
 * UI behavior testing
-* Stress testing verification
+* Load testing verification
 * Error handling checks
 
 **Deliverables**
 
-* Verified stable application
-* Test observations
+* Stable and verified application
 
 ---
 
-### Phase 10: Finalization & Submission (Planned)
+### Phase 11: Finalization & Submission (Pending)
 
 **Activities**
 
@@ -223,30 +248,16 @@ The project combines:
 
 ## Development Environment Standardization
 
-To ensure seamless development across multiple college systems, the project now
-uses **GitHub Codespaces with Dev Containers**.
+The project uses **GitHub Codespaces with Dev Containers** to ensure consistent development.
 
-This provides a fully configured development environment in the cloud,
-eliminating the need to repeatedly install tools such as:
+This provides:
 
-- Git
-- WSL
-- VS Code
-- Compilers
-- Python dependencies
+* Pre-installed compilers and tools
+* Python environment setup
+* Automatic dependency installation
+* Automatic C++ build execution
 
-The development container automatically installs:
-
-- C++ build tools (`g++`, `build-essential`)
-- Python runtime
-- Virtual environment
-- Project dependencies from `backend/requirements.txt`
-
-A build script compiles the C++ system monitoring engine automatically when the
-container is created.
-
-This ensures that the project can be opened and developed on **any machine with
-a web browser**.
+This ensures the project can run on any machine with a browser.
 
 ---
 
@@ -261,28 +272,44 @@ a web browser**.
 
 ## 6. Deployment Strategy
 
-* The application is deployed on a Linux cloud virtual machine
-* The system monitors the host cloud server itself
-* Access is provided via web browser using public IP
+* The application will be deployed on a Linux cloud VM
+* The system monitors the host server
+* Access is provided via browser using public IP
 
 ---
 
 ## 7. Current Project Status
 
-**Completed Phases:**
+### ✅ Completed
 
-* Phase 1: Setup & Foundation
-* Phase 2: System Monitoring Engine
-* Phase 3: Architecture & Design Documentation
+* System Monitoring (CPU + Memory)
+* FastAPI Backend
+* Frontend Dashboard
+* FCFS Scheduling Simulation
+* Real CPU Load Generation
+* UI Integration and Visualization
 
-**In Progress:**
+### 🔄 In Progress
 
-* Phase 4: Web Backend Development
+* Testing and validation
+
+### ⏳ Pending
+
+* Cloud deployment
+* Final report and submission
 
 ---
 
 ## 8. Conclusion
 
-This plan ensures that the project is developed in a structured, incremental,
-and academically sound manner while meeting the requirements of a web-based,
-cloud-deployed application.
+The project has progressed from basic system monitoring to a fully integrated
+**real-time system performance visualization platform**.
+
+It successfully demonstrates:
+
+* Operating system concepts
+* Backend-frontend integration
+* Real-time data visualization
+* System-level interaction using C++ and Linux
+
+The remaining work focuses on deployment and final presentation.

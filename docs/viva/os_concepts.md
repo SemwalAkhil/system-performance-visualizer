@@ -27,6 +27,9 @@
   - [Q: How are scheduling parameters calculated?](#q-how-are-scheduling-parameters-calculated)
   - [Q: Why does CPU remain idle in FCFS?](#q-why-does-cpu-remain-idle-in-fcfs)
   - [Q: Why is sorting required in FCFS?](#q-why-is-sorting-required-in-fcfs)
+  - [Q: Explain the FCFS scheduling algorithm and its implementation.](#q-explain-the-fcfs-scheduling-algorithm-and-its-implementation)
+    - [Explanation](#explanation-5)
+    - [One-line viva answer](#one-line-viva-answer-6)
 
 
 ## Q: What is CPU scheduling?
@@ -265,5 +268,35 @@ Sorting ensures processes are executed in order of arrival time, which is the co
 **One-line:**
 
 > “Sorting enforces correct execution order.”
+
+---
+
+## Q: Explain the FCFS scheduling algorithm and its implementation.
+
+**A:**
+FCFS executes processes in order of arrival.
+
+---
+
+### Explanation
+
+* Non-preemptive scheduling
+* First process arrives → executes first
+
+Implementation steps:
+
+* Sort processes by arrival time
+* Calculate:
+
+  * Start time
+  * Completion time
+  * Waiting time
+  * Turnaround time
+
+---
+
+### One-line viva answer
+
+> “FCFS executes processes in arrival order without preemption.”
 
 ---

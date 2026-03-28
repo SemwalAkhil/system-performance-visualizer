@@ -99,6 +99,39 @@
   - [Q: Why was lifespan used instead of `on_event`?](#q-why-was-lifespan-used-instead-of-on_event)
   - [Q: Why is `cwd` used in subprocess while building?](#q-why-is-cwd-used-in-subprocess-while-building)
   - [Q: How does FastAPI communicate with the scheduler?](#q-how-does-fastapi-communicate-with-the-scheduler)
+  - [Q: Which charting library is used in the project frontend?](#q-which-charting-library-is-used-in-the-project-frontend)
+    - [Explanation](#explanation-28)
+    - [Syntax overview](#syntax-overview)
+    - [Potential](#potential)
+    - [One-line viva answer](#one-line-viva-answer-32)
+  - [Q: Explain the working of the `runScheduler()` function.](#q-explain-the-working-of-the-runscheduler-function)
+    - [Explanation](#explanation-29)
+    - [Role in system](#role-in-system)
+    - [One-line viva answer](#one-line-viva-answer-33)
+  - [Q: Why does the graph sometimes shrink or disappear temporarily?](#q-why-does-the-graph-sometimes-shrink-or-disappear-temporarily)
+    - [Explanation](#explanation-30)
+    - [Conclusion](#conclusion)
+    - [One-line viva answer](#one-line-viva-answer-34)
+  - [Q: What is the `subprocess` module in Python?](#q-what-is-the-subprocess-module-in-python)
+    - [Explanation](#explanation-31)
+    - [One-line viva answer](#one-line-viva-answer-35)
+  - [Q: Explain `subprocess.run`, `subprocess.Popen`, and `subprocess.DEVNULL`.](#q-explain-subprocessrun-subprocesspopen-and-subprocessdevnull)
+    - [Explanation](#explanation-32)
+      - [subprocess.run()](#subprocessrun)
+      - [subprocess.Popen()](#subprocesspopen)
+      - [subprocess.DEVNULL](#subprocessdevnull)
+    - [One-line viva answer](#one-line-viva-answer-36)
+  - [Q: Explain the CPU load generation approach used in the project.](#q-explain-the-cpu-load-generation-approach-used-in-the-project)
+    - [Explanation](#explanation-33)
+    - [Advantage](#advantage)
+    - [One-line viva answer](#one-line-viva-answer-37)
+  - [Q: Explain the external libraries and files used in the project.](#q-explain-the-external-libraries-and-files-used-in-the-project)
+    - [Explanation](#explanation-34)
+      - [Frontend](#frontend)
+      - [Backend](#backend)
+      - [System](#system)
+      - [Custom modules](#custom-modules)
+    - [One-line viva answer](#one-line-viva-answer-38)
 
 # Python and FastAPI (Viva Notes)
 
@@ -801,6 +834,275 @@ FastAPI executes the scheduler binary using `subprocess`, passes input via stdin
 **One-line:**
 
 > “FastAPI interacts with the scheduler via subprocess using stdin and JSON output.”
+
+---
+
+## Q: Which charting library is used in the project frontend?
+
+**A:**
+The project uses **Chart.js** for data visualization.
+
+---
+
+### Explanation
+
+* Chart.js is a JavaScript library used to create interactive charts
+* It is included via CDN in the HTML file
+* It supports multiple chart types like line, bar, and pie charts
+
+In this project:
+
+* Line charts are used to display CPU and memory usage
+* Data updates dynamically using API responses
+
+---
+
+### Syntax overview
+
+```javascript
+const chart = new Chart(canvasElement, {
+    type: 'line',
+    data: {
+        labels: [...],
+        datasets: [{
+            label: 'CPU %',
+            data: [...]
+        }]
+    }
+});
+```
+
+---
+
+### Potential
+
+* Real-time data visualization
+* Smooth animations
+* Responsive and customizable UI
+
+---
+
+### One-line viva answer
+
+> “Chart.js is used to visualize real-time CPU and memory usage through dynamic line charts.”
+
+---
+
+## Q: Explain the working of the `runScheduler()` function.
+
+**A:**
+The `runScheduler()` function sends user input to the backend and renders scheduling results.
+
+---
+
+### Explanation
+
+* Collects input values (arrival and burst times)
+* Converts them into a JSON array
+* Sends a POST request to `/api/scheduler`
+* Receives processed data from the backend
+
+After receiving response:
+
+* Updates scheduling table
+* Generates Gantt chart
+* Starts execution animation
+
+---
+
+### Role in system
+
+* Acts as a bridge between UI and backend
+* Enables real-time scheduling visualization
+
+---
+
+### One-line viva answer
+
+> “It collects user input, sends it to the backend, and updates the UI with scheduling results.”
+
+---
+
+## Q: Why does the graph sometimes shrink or disappear temporarily?
+
+**A:**
+This happens due to dynamic data windowing and real-time updates.
+
+---
+
+### Explanation
+
+* The graph maintains a fixed number of data points
+* Older values are removed using:
+
+```javascript
+labels.shift();
+cpuData.shift();
+```
+
+* When values are very low or shifting occurs:
+
+  * Graph appears compressed
+  * Temporary disappearance may occur
+
+---
+
+### Conclusion
+
+* This is expected behavior in real-time streaming graphs
+
+---
+
+### One-line viva answer
+
+> “It happens due to sliding window updates and dynamic scaling in real-time chart rendering.”
+
+---
+
+## Q: What is the `subprocess` module in Python?
+
+**A:**
+The `subprocess` module allows Python to execute system-level commands and programs.
+
+---
+
+### Explanation
+
+* Used to run external programs from Python
+* Provides control over input, output, and execution
+
+In this project:
+
+* Executes C++ binaries
+* Runs system monitor
+* Generates CPU load
+
+---
+
+### One-line viva answer
+
+> “Subprocess is used to execute and control external system-level programs from Python.”
+
+---
+
+## Q: Explain `subprocess.run`, `subprocess.Popen`, and `subprocess.DEVNULL`.
+
+**A:**
+These are different methods for executing external processes.
+
+---
+
+### Explanation
+
+#### subprocess.run()
+
+* Executes a command and waits for completion
+
+```python
+subprocess.run([...])
+```
+
+* Used for:
+
+  * Running C++ binaries
+  * Fetching output
+
+---
+
+#### subprocess.Popen()
+
+* Runs process asynchronously
+
+```python
+subprocess.Popen([...])
+```
+
+* Used for:
+
+  * Continuous CPU load generation
+
+---
+
+#### subprocess.DEVNULL
+
+* Discards output of a process
+
+```python
+stdout=subprocess.DEVNULL
+```
+
+* Prevents terminal clutter
+
+---
+
+### One-line viva answer
+
+> “run is blocking, Popen is non-blocking, and DEVNULL discards output.”
+
+---
+
+## Q: Explain the CPU load generation approach used in the project.
+
+**A:**
+CPU load is generated using multiple `yes` processes.
+
+---
+
+### Explanation
+
+* The `yes` command continuously outputs data
+* Multiple instances are spawned equal to CPU cores
+* Output is discarded using `DEVNULL`
+* This forces CPU to remain busy
+
+---
+
+### Advantage
+
+* Simple and effective
+* Works reliably on Linux systems
+
+---
+
+### One-line viva answer
+
+> “CPU load is generated using multiple ‘yes’ processes to fully utilize CPU cores.”
+
+---
+
+## Q: Explain the external libraries and files used in the project.
+
+**A:**
+The project uses a combination of frontend, backend, and system-level components.
+
+---
+
+### Explanation
+
+#### Frontend
+
+* Chart.js → visualization
+
+#### Backend
+
+* FastAPI → API handling
+* subprocess → process execution
+
+#### System
+
+* `/proc/stat` → CPU usage
+* `/proc/meminfo` → memory usage
+
+#### Custom modules
+
+* FCFS.cpp → scheduling logic
+* LinuxSystemMonitor.cpp → system monitoring
+
+---
+
+### One-line viva answer
+
+> “The project uses Chart.js, FastAPI, subprocess, and Linux /proc files for system monitoring.”
 
 ---
 

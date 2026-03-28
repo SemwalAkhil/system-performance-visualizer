@@ -133,6 +133,38 @@
   - [Q: What problem did you face while parsing input?](#q-what-problem-did-you-face-while-parsing-input)
   - [Q: Why was regex used instead of sscanf?](#q-why-was-regex-used-instead-of-sscanf)
   - [Q: What happens if parsing fails?](#q-what-happens-if-parsing-fails)
+  - [Q: What is a Gantt Chart?](#q-what-is-a-gantt-chart)
+    - [One-line](#one-line-1)
+  - [Q: Why did you add start time?](#q-why-did-you-add-start-time)
+    - [One-line](#one-line-2)
+  - [Q: Why is Gantt chart important?](#q-why-is-gantt-chart-important)
+    - [One-line](#one-line-3)
+  - [Q: How is block width determined?](#q-how-is-block-width-determined)
+    - [One-line](#one-line-4)
+  - [Q: Why add load generation?](#q-why-add-load-generation)
+    - [One-line](#one-line-5)
+  - [Q: How did you simulate real-time execution?](#q-how-did-you-simulate-real-time-execution)
+    - [One-line](#one-line-6)
+  - [Q: Explain the external libraries and files used in the project.](#q-explain-the-external-libraries-and-files-used-in-the-project)
+    - [Explanation](#explanation-38)
+      - [Frontend](#frontend)
+      - [Backend](#backend)
+      - [System](#system)
+      - [Custom modules](#custom-modules)
+    - [One-line viva answer](#one-line-viva-answer-39)
+  - [Q: What is NPM and what is its role?](#q-what-is-npm-and-what-is-its-role)
+    - [Explanation](#explanation-39)
+    - [One-line viva answer](#one-line-viva-answer-40)
+  - [Q: What is the role of the timeline in the project?](#q-what-is-the-role-of-the-timeline-in-the-project)
+    - [Explanation](#explanation-40)
+    - [One-line viva answer](#one-line-viva-answer-41)
+  - [Q: Explain the workflow of the system from user interaction to output.](#q-explain-the-workflow-of-the-system-from-user-interaction-to-output)
+    - [Explanation](#explanation-41)
+    - [One-line viva answer](#one-line-viva-answer-42)
+  - [Q: What is the role of `main.cpp` in the project?](#q-what-is-the-role-of-maincpp-in-the-project)
+    - [Explanation](#explanation-42)
+    - [Importance](#importance)
+    - [One-line viva answer](#one-line-viva-answer-43)
 
 
 ## Q: Is this project platform-dependent?
@@ -1126,5 +1158,226 @@ No processes are extracted, resulting in empty output from the scheduler.
 **One-line:**
 
 > “Parsing failure leads to empty scheduler output.”
+
+---
+
+## Q: What is a Gantt Chart?
+
+**A:**
+
+A Gantt chart is a graphical representation of process execution over time in CPU scheduling.
+
+---
+
+### One-line
+
+> “It visually represents process execution timeline.”
+
+---
+
+## Q: Why did you add start time?
+
+**A:**
+
+Start time is required to accurately represent when each process begins execution in the timeline.
+
+---
+
+### One-line
+
+> “Start time is needed to visualize execution order.”
+
+---
+
+## Q: Why is Gantt chart important?
+
+**A:**
+
+It helps visualize process execution order and timing, making scheduling algorithms easier to understand and analyze.
+
+---
+
+### One-line
+
+> “Gantt chart visually represents process execution over time.”
+
+---
+
+## Q: How is block width determined?
+
+**A:**
+
+Block width is proportional to burst time, representing execution duration.
+
+---
+
+### One-line
+
+> “Width is scaled based on burst time.”
+
+---
+
+## Q: Why add load generation?
+
+**A:**
+
+Load generation helps demonstrate system behavior under stress and validates monitoring accuracy.
+
+---
+
+### One-line
+
+> “Load generation validates real-time monitoring.”
+
+---
+
+## Q: How did you simulate real-time execution?
+
+**A:**
+
+Real-time execution is simulated using the scheduling timeline, where each time unit triggers UI updates and highlights the currently executing process.
+
+---
+
+### One-line
+
+> “Execution is animated using the scheduler timeline.”
+
+---
+
+## Q: Explain the external libraries and files used in the project.
+
+**A:**
+The project uses a combination of frontend, backend, and system-level components.
+
+---
+
+### Explanation
+
+#### Frontend
+
+* Chart.js → visualization
+
+#### Backend
+
+* FastAPI → API handling
+* subprocess → process execution
+
+#### System
+
+* `/proc/stat` → CPU usage
+* `/proc/meminfo` → memory usage
+
+#### Custom modules
+
+* FCFS.cpp → scheduling logic
+* LinuxSystemMonitor.cpp → system monitoring
+
+---
+
+### One-line viva answer
+
+> “The project uses Chart.js, FastAPI, subprocess, and Linux /proc files for system monitoring.”
+
+---
+
+## Q: What is NPM and what is its role?
+
+**A:**
+NPM is a package manager for JavaScript.
+
+---
+
+### Explanation
+
+* Used to install and manage libraries
+* Handles dependencies and versioning
+
+In this project:
+
+* Chart.js is used via CDN instead of npm
+
+---
+
+### One-line viva answer
+
+> “NPM manages JavaScript dependencies, though this project uses CDN instead.”
+
+---
+
+
+## Q: What is the role of the timeline in the project?
+
+**A:**
+Timeline represents process execution over time.
+
+---
+
+### Explanation
+
+* Stores process ID for each time unit
+* Used for:
+
+  * Gantt chart visualization
+  * Animation
+
+---
+
+### One-line viva answer
+
+> “Timeline tracks which process runs at each time unit for visualization.”
+
+---
+
+## Q: Explain the workflow of the system from user interaction to output.
+
+**A:**
+The system follows a client-server execution flow.
+
+---
+
+### Explanation
+
+1. User opens web interface
+2. Frontend requests `/api/stats`
+3. Backend runs C++ monitor
+4. Data returned → charts update
+5. User enters processes
+6. Frontend sends data to `/api/scheduler`
+7. Backend runs FCFS binary
+8. Results returned → UI updates
+
+---
+
+### One-line viva answer
+
+> “User input is sent to backend, processed by C++, and results are visualized in real-time.”
+
+---
+
+## Q: What is the role of `main.cpp` in the project?
+
+**A:**
+`main.cpp` is the entry point of the C++ program.
+
+---
+
+### Explanation
+
+* Calls system monitoring functions
+* Calls scheduling logic
+* Outputs results in JSON format
+
+---
+
+### Importance
+
+* Connects C++ logic with backend API
+
+---
+
+### One-line viva answer
+
+> “main.cpp executes core logic and outputs results for the backend.”
 
 ---

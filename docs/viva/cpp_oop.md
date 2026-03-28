@@ -50,6 +50,14 @@
     - [Why member initializer lists are used](#why-member-initializer-lists-are-used)
     - [Why not initialize inside the constructor body?](#why-not-initialize-inside-the-constructor-body)
     - [One-line viva answer](#one-line-viva-answer-9)
+  - [Q: Explain the constructor of `LinuxSystemMonitor`.](#q-explain-the-constructor-of-linuxsystemmonitor)
+    - [Explanation](#explanation-9)
+    - [Note](#note)
+    - [One-line viva answer](#one-line-viva-answer-10)
+  - [Q: What is regex and how is it used in this project?](#q-what-is-regex-and-how-is-it-used-in-this-project)
+    - [Explanation](#explanation-10)
+    - [Pattern breakdown](#pattern-breakdown)
+    - [One-line viva answer](#one-line-viva-answer-11)
 
 
 ## Q: What is a vtable in C++?
@@ -492,3 +500,70 @@ Initializer lists avoid this extra step.
 ### One-line viva answer
 
 > “This line defines the constructor and initializes member variables using a member initializer list.”
+
+## Q: Explain the constructor of `LinuxSystemMonitor`.
+
+**A:**
+The constructor initializes CPU tracking variables.
+
+---
+
+### Explanation
+
+```cpp
+prevTotal = 0;
+prevIdle = 0;
+```
+
+* Used for storing previous CPU values
+* Helps in calculating CPU usage differences
+
+---
+
+### Note
+
+* Final implementation uses double-read method instead
+
+---
+
+### One-line viva answer
+
+> “It initializes variables used for CPU usage calculation.”
+
+---
+
+## Q: What is regex and how is it used in this project?
+
+**A:**
+Regex is used for pattern matching in strings.
+
+---
+
+### Explanation
+
+* Used to extract process data from JSON input
+
+Pattern used:
+
+```cpp
+regex pattern(R"(\{\s*"id"\s*:\s*(\d+)\s*,\s*"arrival"\s*:\s*(\d+)\s*,\s*"burst"\s*:\s*(\d+)\s*\})");
+```
+
+---
+
+### Pattern breakdown
+
+* Matches JSON object structure
+* Captures:
+
+  * id
+  * arrival
+  * burst
+
+---
+
+### One-line viva answer
+
+> “Regex is used to extract process values from JSON input in C++.”
+
+---
