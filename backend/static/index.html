@@ -21,67 +21,45 @@
 
 <body>
 
-    <div class="shell">
+    <!-- Main (Full Screen Layout) -->
+    <main class="main">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <div class="logo-icon">⚡</div>
-                <span>SYS<br>MONITOR</span>
+        <!-- Topbar -->
+        <header class="topbar">
+            <h1>SYSTEM <span>VISUALIZER</span></h1>
+            <div class="topbar-meta">
+                <div id="clock">--:--:--</div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- ROW 1: Charts -->
+            <div class="charts-row">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">CPU Usage</div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Memory Usage</div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="memoryChart"></canvas>
+                    </div>
+                </div>
+
             </div>
 
-            <nav class="nav-section">
-                <div class="nav-label">Navigation</div>
-                <a class="nav-item active">Dashboard</a>
-                <a class="nav-item">System Stats</a>
-                <a class="nav-item">Scheduling</a>
-                <a class="nav-item">Load</a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="status-dot">
-                    <div class="dot"></div>
-                    LIVE
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main -->
-        <main class="main">
-
-            <!-- Topbar -->
-            <header class="topbar">
-                <h1>SYSTEM <span>VISUALIZER</span></h1>
-                <div class="topbar-meta">
-                    <div id="clock">--:--:--</div>
-                </div>
-            </header>
-
-            <!-- Content -->
-            <div class="content">
-
-                <!-- Charts -->
-                <div class="charts-row">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">CPU Usage</div>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="cpuChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Memory Usage</div>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="memoryChart"></canvas>
-                        </div>
-                    </div>
-
-                </div>
+            <!-- ROW 2: Load + Scheduler -->
+            <div class="middle-row">
 
                 <!-- Load Control -->
                 <div class="card">
@@ -108,73 +86,85 @@
                 <!-- Scheduler Controls -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Process Input</div>
+                        <div class="card-title">Scheduling Simulation Controls</div>
                     </div>
                     <div class="card-body">
 
-                        <div id="process-inputs">
-                            <div class="proc-row">
-                                Arrival: <input type="number" class="arrival" />
-                                Burst: <input type="number" class="burst" />
+                        <div class="process-inputs-wrapper">
+                            <div class="proc-table-header">
+                                <span>Process</span>
+                                <span>Arrival Time</span>
+                                <span>Burst Time</span>
+                                <span></span>
+                            </div>
+
+                            <div id="process-inputs">
+                                <div class="proc-row">
+                                    <span class="proc-id-label">P1</span>
+                                    <input type="number" class="arrival proc-input" placeholder="0" min="0" />
+                                    <input type="number" class="burst proc-input" placeholder="1" min="1" />
+                                    <span class="proc-remove-placeholder"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <button onclick="addProcess()">Add Process</button>
-                        <button id="run-btn" onclick="runScheduler()">Run FCFS</button>
+                        <div style="margin-top:12px; display:flex; gap:10px;">
+                            <button onclick="addProcess()">+ Add Process</button>
+                            <button id="run-btn" onclick="runScheduler()">▶ Start Simulation</button>
+                        </div>
 
                     </div>
-                </div>
-
-                <!-- Output -->
-                <div class="output-row">
-
-                    <!-- Gantt -->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Gantt Chart</div>
-                            <div id="current-process" style="margin-top:5px"></div>
-                        </div>
-                        <div class=" card-body">
-                            <div id="gantt-container">
-                                <div id="gantt"></div>
-                                <div id="timeline"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Scheduling Table</div>
-                        </div>
-                        <div class="card-body">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Arrival</th>
-                                        <th>Burst</th>
-                                        <th>Start</th>
-                                        <th>Completion</th>
-                                        <th>Waiting</th>
-                                        <th>Turnaround</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="scheduler-body"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
-        </main>
-    </div>
+
+            <!-- ROW 3: Output -->
+            <div class="output-row">
+
+                <!-- Gantt -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Gantt Chart</div>
+                        <div id="current-process" style="margin-top:5px;font-weight:bold;">CPU Idle</div>
+                    </div>
+                    <div class="card-body">
+                        <div id="gantt-container">
+                            <div id="gantt"></div>
+                            <div id="timeline"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Scheduling Table</div>
+                    </div>
+                    <div class="card-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Arrival</th>
+                                    <th>Burst</th>
+                                    <th>Start</th>
+                                    <th>Completion</th>
+                                    <th>Waiting</th>
+                                    <th>Turnaround</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduler-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
 
     <!-- JS -->
-
     <script>
-        // 🔥 GLOBAL CONFIG (shared across all scripts)
         window.API_BASE = '/api';
     </script>
     <script src="/static/js/charts.js"></script>

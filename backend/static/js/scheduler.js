@@ -1,11 +1,14 @@
 // =====================
 // CONFIG (shared)
 // =====================
-const API_BASE = window.API_BASE;
+// use global API_BASE from HTML
+// (avoid redeclaration across multiple JS files)
+
 
 // =====================
 // STATE
 // =====================
+// const API_BASE = window.API_BASE || '/api';
 let ganttBlocks = [];
 let executionInterval = null;
 let hasStartedExecution = false;
@@ -13,14 +16,18 @@ let hasStartedExecution = false;
 // =====================
 // PROCESS INPUT
 // =====================
+let processCounter = document.querySelectorAll('#process-inputs .proc-row').length || 1;
+
 function addProcess() {
+    processCounter++;
     const div = document.createElement("div");
     div.className = "proc-row";
 
     div.innerHTML = `
-        Arrival: <input type="number" class="arrival" />
-        Burst: <input type="number" class="burst" />
-        <button onclick="removeProcess(this)">❌</button>
+        <span class="proc-id-label">P${processCounter}</span>
+        <input type="number" class="arrival proc-input" placeholder="0" min="0" />
+        <input type="number" class="burst proc-input" placeholder="1" min="1" />
+        <button class="proc-remove-btn" onclick="removeProcess(this)" title="Remove">✕</button>
     `;
 
     document.getElementById("process-inputs").appendChild(div);
@@ -28,6 +35,15 @@ function addProcess() {
 
 function removeProcess(btn) {
     btn.parentElement.remove();
+
+    // Re-label remaining rows
+    const rows = document.querySelectorAll('#process-inputs .proc-row');
+    rows.forEach((row, i) => {
+        const label = row.querySelector('.proc-id-label');
+        if (label) label.textContent = `P${i + 1}`;
+    });
+
+    processCounter = rows.length;
 }
 
 // =====================
@@ -48,6 +64,8 @@ function validateProcesses(arrivals, bursts) {
 // SCHEDULER
 // =====================
 async function runScheduler() {
+    // clear any previous execution loop
+    if (executionInterval) clearInterval(executionInterval);
     // reset execution state for a fresh run
     hasStartedExecution = false;
 
@@ -84,7 +102,10 @@ async function runScheduler() {
         startRealtimeExecution(data.processes, runBtn);
     } catch (err) {
         console.error("Scheduler error:", err);
-        if (runBtn) runBtn.disabled = false;
+        if (runBtn) {
+                runBtn.disabled = false;
+                runBtn.innerText = "▶ Start Simulation";
+            }
     }
 }
 
@@ -199,6 +220,7 @@ function startRealtimeExecution(processes, runBtn) {
 
                 if (runBtn) {
                     runBtn.disabled = false;
+                    runBtn.innerText = "▶ Start Simulation";
                 }
 
                 clearInterval(executionInterval);
