@@ -69,6 +69,23 @@ def run_binary(path: str, input_data: str | None = None) -> Dict[str, Any]:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
+        # ===== DEBUG PATHS =====
+        print("=== PATH DEBUG ===")
+        print("CWD:", os.getcwd())
+        print("PROJECT_ROOT:", PROJECT_ROOT)
+        print("SCRIPTS_DIR:", SCRIPTS_DIR)
+        print("BUILD_SCRIPT:", BUILD_SCRIPT)
+
+        # ===== DIRECTORY TREE (LIMITED DEPTH) =====
+        print("=== DIRECTORY DEBUG ===")
+        for root, dirs, files in os.walk(PROJECT_ROOT):
+            print(f"📁 {root}")
+            for d in dirs:
+                print(f"   [DIR] {d}")
+            for f in files:
+                print(f"   [FILE] {f}")
+
+        # ===== BUILD STEP =====
         if os.path.exists(BUILD_SCRIPT):
             subprocess.run(["chmod", "+x", BUILD_SCRIPT])
 
