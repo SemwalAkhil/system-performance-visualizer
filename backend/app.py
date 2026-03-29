@@ -77,21 +77,21 @@ async def lifespan(app: FastAPI):
         print("SCRIPTS_DIR:", SCRIPTS_DIR)
         print("BUILD_SCRIPT:", BUILD_SCRIPT)
 
-        # ===== DIRECTORY TREE (LIMITED DEPTH) =====
-        print("=== DIRECTORY DEBUG ===")
-        for root, dirs, files in os.walk(PROJECT_ROOT):
-            # 🔥 Skip hidden and unnecessary directories
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ('__pycache__', 'node_modules')]
+        # ===== DIRECTORY CHECK (ONLY IMPORTANT PATHS) =====
+        print("=== IMPORTANT PATH DEBUG ===")
 
-            print(f"📁 {root}")
+        important_paths = {
+            "PROJECT_ROOT": PROJECT_ROOT,
+            "BIN_DIR": BIN_DIR,
+            "SCRIPTS_DIR": SCRIPTS_DIR,
+            "BUILD_SCRIPT": BUILD_SCRIPT,
+            "SYSTEM_MONITOR_BIN": SYSTEM_MONITOR_BIN,
+            "FCFS_BIN": FCFS_BIN
+        }
 
-            for d in dirs:
-                print(f"   [DIR] {d}")
-
-            for f in files:
-                if f.startswith('.'):
-                    continue
-                print(f"   [FILE] {f}")
+        for name, path in important_paths.items():
+            exists = os.path.exists(path)
+            print(f"{name}: {path} | EXISTS: {exists}")
 
         # ===== BUILD STEP =====
         if os.path.exists(BUILD_SCRIPT):
