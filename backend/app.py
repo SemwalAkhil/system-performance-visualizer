@@ -151,6 +151,35 @@ def home():
 
 @app.get("/api/stats")
 def get_stats():
+    """Return CPU and memory usage.
+    Falls back to Python-based stats if C++ binary fails (cloud compatibility).
+    """
+    try:
+        data = run_binary(SYSTEM_MONITOR_BIN)
+
+        # If binary failed due to GLIBC or runtime issue → fallback
+        if "error" in data:
+            raise Exception(data.get("stderr", "Binary failed"))
+
+        return data
+
+    except Exception:
+        # 🔥 FALLBACK (NO C++ DEPENDENCY)
+        try:
+            import os
+            import psutil
+
+            cpu = psutil.cpu_percent(interval=0.5)
+            memory = psutil.virtual_memory()
+
+            return {
+                "cpu": cpu,
+                "memory": memory.used // (1024 * 1024),
+                "total_memory": memory.total // (1024 * 1024),
+                "fallback": True
+            }
+        except Exception as e:
+            return {"error": str(e)}
     """Return CPU and memory usage from system_monitor binary."""
     try:
         return run_binary(SYSTEM_MONITOR_BIN)
