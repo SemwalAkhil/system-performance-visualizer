@@ -13,7 +13,7 @@ from typing import List, Dict, Any
 # CONFIG
 # =====================================================
 
-PROJECT_ROOT = os.path.abspath("..")
+PROJECT_ROOT = os.getcwd()
 BIN_DIR = os.path.join(PROJECT_ROOT, "bin")
 SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
 
@@ -69,21 +69,24 @@ def run_binary(path: str, input_data: str | None = None) -> Dict[str, Any]:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        subprocess.run(["chmod", "+x", BUILD_SCRIPT])
+        if os.path.exists(BUILD_SCRIPT):
+            subprocess.run(["chmod", "+x", BUILD_SCRIPT])
 
-        result = subprocess.run(
-            [BUILD_SCRIPT],
-            cwd=PROJECT_ROOT,
-            capture_output=True,
-            text=True
-        )
+            result = subprocess.run(
+                [BUILD_SCRIPT],
+                cwd=PROJECT_ROOT,
+                capture_output=True,
+                text=True
+            )
 
-        print("\n=== C++ BUILD OUTPUT ===")
-        print(result.stdout)
+            print("=== C++ BUILD OUTPUT ===")
+            print(result.stdout)
 
-        if result.stderr:
-            print("\n=== BUILD ERRORS ===")
-            print(result.stderr)
+            if result.stderr:
+                print("=== BUILD ERRORS ===")
+                print(result.stderr)
+        else:
+            print(f"Build script not found at {BUILD_SCRIPT}, skipping build step.")
 
     except Exception as e:
         print("Build failed:", str(e))
