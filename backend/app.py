@@ -80,10 +80,17 @@ async def lifespan(app: FastAPI):
         # ===== DIRECTORY TREE (LIMITED DEPTH) =====
         print("=== DIRECTORY DEBUG ===")
         for root, dirs, files in os.walk(PROJECT_ROOT):
+            # 🔥 Skip hidden and unnecessary directories
+            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ('__pycache__', 'node_modules')]
+
             print(f"📁 {root}")
+
             for d in dirs:
                 print(f"   [DIR] {d}")
+
             for f in files:
+                if f.startswith('.'):
+                    continue
                 print(f"   [FILE] {f}")
 
         # ===== BUILD STEP =====
