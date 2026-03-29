@@ -14,7 +14,8 @@ from typing import List, Dict, Any
 # =====================================================
 
 # Railway / cloud runs app from /app, so use current directory
-PROJECT_ROOT = os.path.abspath(os.path.join(os.getcwd(), ".."))
+# In deployment, backend folder itself is root (/app)
+PROJECT_ROOT = os.getcwd()
 BIN_DIR = os.path.join(PROJECT_ROOT, "bin")
 SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
 
@@ -120,7 +121,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="backend/static"), name="static")
 
 # =====================================================
 # ROUTES
@@ -128,7 +129,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def home():
-    return FileResponse("static/index.html")
+    return FileResponse("backend/static/index.html")
 
 
 @app.get("/api/stats")
