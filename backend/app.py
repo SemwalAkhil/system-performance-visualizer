@@ -45,6 +45,13 @@ memory_blocks: List[bytearray] = []
 # =====================================================
 
 def run_binary(path: str, input_data: str | None = None) -> Dict[str, Any]:
+    # Ensure binary is executable (important for cloud deployments)
+    try:
+        if os.path.exists(path):
+            os.chmod(path, 0o755)
+    except Exception:
+        pass
+
     """Run a compiled C++ binary and return parsed JSON output."""
     result = subprocess.run(
         [path],
@@ -95,22 +102,32 @@ async def lifespan(app: FastAPI):
             print(f"{name}: {path} | EXISTS: {exists}")
 
         # ===== BUILD STEP =====
+        # Cloud environments often DON'T have g++ installed
+        # So we attempt build, but fail gracefully and rely on precompiled binaries
         if os.path.exists(BUILD_SCRIPT):
             subprocess.run(["chmod", "+x", BUILD_SCRIPT])
 
-            result = subprocess.run(
-                [BUILD_SCRIPT],
-                cwd=PROJECT_ROOT,
-                capture_output=True,
-                text=True
-            )
+            try:
+                result = subprocess.run(
+                    [BUILD_SCRIPT],
+                    cwd=PROJECT_ROOT,
+                    capture_output=True,
+                    text=True
+                )
 
-            print("=== C++ BUILD OUTPUT ===")
-            print(result.stdout)
+                print("=== C++ BUILD OUTPUT ===")
+                print(result.stdout)
 
-            if result.stderr:
-                print("=== BUILD ERRORS ===")
-                print(result.stderr)
+                if result.stderr:
+                    print("=== BUILD ERRORS ===")
+                    print(result.stderr)
+
+                # If build failed, warn but continue
+                if "g++" in (result.stderr or ""):
+                    print("⚠ g++ not available — using precompiled binaries")
+
+            except Exception as e:
+                print("⚠ Build step failed, using existing binaries:", str(e))
         else:
             print(f"Build script not found at {BUILD_SCRIPT}, skipping build step.")
 

@@ -1,52 +1,64 @@
-# --------------------
+# ====================
 # Build artifacts
-# --------------------
+# ====================
 build/
 builds/
-bin/
+
+# Ignore intermediate compiled files
 *.o
 *.obj
-*.out
-*.exe
 
-# --------------------
+# Ignore executables generally
+*.exe
+*.out
+
+# BUT allow required deployment binaries
+!bin/
+!bin/fcfs
+!bin/system_monitor
+
+# ====================
 # Python
-# --------------------
+# ====================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Virtual environments
 .venv/
 venv/
 env/
+
+# Packaging
 *.egg-info/
 dist/
 
-# --------------------
-# Dev Containers / IDE
-# --------------------
+# ====================
+# IDE / Editor
+# ====================
 .vscode/
 
-# --------------------
+# ====================
 # OS files
-# --------------------
+# ====================
 .DS_Store
 Thumbs.db
 
-# --------------------
+# ====================
 # Logs
-# --------------------
+# ====================
 *.log
 
-# --------------------
+# ====================
 # Environment files
-# --------------------
+# ====================
 .env
 .env.local
 
-# --------------------
+# ====================
 # Temporary / misc
-# --------------------
+# ====================
 *.tmp
 *.temp
 *.swp
