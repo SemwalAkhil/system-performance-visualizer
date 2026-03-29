@@ -302,8 +302,40 @@ async def run_scheduler(request: Request):
 
         data = run_binary(FCFS_BIN, json.dumps(processes))
 
+        # 🔥 FALLBACK if C++ binary fails (GLIBC issue on cloud)
         if "error" in data:
-            return data
+            try:
+                # Minimal FCFS fallback (Python)
+                processes_sorted = sorted(processes, key=lambda p: p["arrival"])
+
+                current_time = 0
+                result = []
+
+                for p in processes_sorted:
+                    arrival = p["arrival"]
+                    burst = p["burst"]
+
+                    if current_time < arrival:
+                        current_time = arrival
+
+                    start = current_time
+                    end = start + burst
+
+                    result.append({
+                        "id": p["id"],
+                        "start": start,
+                        "end": end
+                    })
+
+                    current_time = end
+
+                data = {
+                    "schedule": result,
+                    "fallback": True
+                }
+
+            except Exception as e:
+                return {"error": str(e)}
 
         # Start execution AFTER computing schedule
         start_execution(processes)
