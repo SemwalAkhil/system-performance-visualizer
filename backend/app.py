@@ -13,7 +13,7 @@ from typing import List, Dict, Any
 # CONFIG
 # =====================================================
 
-PROJECT_ROOT = os.getcwd()
+PROJECT_ROOT = os.path.abspath(os.path.join(os.getcwd(), ".."))
 BIN_DIR = os.path.join(PROJECT_ROOT, "bin")
 SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
 
