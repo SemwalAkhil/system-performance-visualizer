@@ -8,7 +8,7 @@
 // =====================
 // STATE
 // =====================
-// const API_BASE = window.API_BASE || '/api';
+const API_BASE = window.API_BASE || '/api';
 let ganttBlocks = [];
 let executionInterval = null;
 let hasStartedExecution = false;
@@ -96,10 +96,18 @@ async function runScheduler() {
         });
         const data = await res.json();
 
-        renderTable(data.processes);
-        renderGantt(data.processes);
-        renderAverages(data.processes);
-        startRealtimeExecution(data.processes, runBtn);
+        // ✅ use correct backend response structure
+        const schedule = data.schedule || data.processes;
+
+        if (!schedule) {
+            console.error("Invalid scheduler response", data);
+            return;
+        }
+
+        renderTable(schedule);
+        renderGantt(schedule);
+        renderAverages(schedule);
+        startRealtimeExecution(schedule, runBtn);
     } catch (err) {
         console.error("Scheduler error:", err);
         if (runBtn) {
@@ -115,8 +123,10 @@ async function runScheduler() {
 function renderTable(data) {
     const tbody = document.getElementById('scheduler-body');
 
-    
-    
+    if (!data || !Array.isArray(data)) {
+        console.error("renderTable received invalid data", data);
+        return;
+    }
 
     tbody.innerHTML = data.map(p => `
         <tr id="row-${p.id}">
