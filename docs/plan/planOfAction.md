@@ -200,7 +200,7 @@ The project combines:
 
 ---
 
-### Phase 9: Cloud Deployment (Pending)
+### Phase 9: Cloud Deployment (Completed)
 
 **Activities**
 
@@ -215,7 +215,7 @@ The project combines:
 
 ---
 
-### Phase 10: Testing & Validation (In Progress)
+### Phase 10: Testing & Validation (Done)
 
 **Activities**
 
@@ -230,7 +230,7 @@ The project combines:
 
 ---
 
-### Phase 11: Finalization & Submission (Pending)
+### Phase 11: Finalization & Submission (In progress)
 
 **Activities**
 
@@ -282,21 +282,7 @@ This ensures the project can run on any machine with a browser.
 
 ### ✅ Completed
 
-* System Monitoring (CPU + Memory)
-* FastAPI Backend
-* Frontend Dashboard
-* FCFS Scheduling Simulation
-* Real CPU Load Generation
-* UI Integration and Visualization
-
-### 🔄 In Progress
-
-* Testing and validation
-
-### ⏳ Pending
-
-* Cloud deployment
-* Final report and submission
+* The development phase of the project has been completed.
 
 ---
 

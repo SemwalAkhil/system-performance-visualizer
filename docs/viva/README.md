@@ -3,6 +3,12 @@
 This folder contains viva questions and answers collected
 during the development of the System Performance Visualizer project.
 
+All content is aligned with the final implemented system, which includes:
+- FCFS scheduling
+- Real-time system monitoring
+- FastAPI backend integration
+- Cloud deployment
+
 Sections:
 
 - [OS concepts](os_concepts.md)
