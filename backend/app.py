@@ -29,15 +29,21 @@ BUILD_SCRIPT = os.path.join(SCRIPTS_DIR, "build.sh")
 
 CPU_STEP = max(1, (os.cpu_count() or 1) // 4)
 
-# 🔥 Dynamic memory block size based on total RAM
+# 🔥 Dynamic memory block size based on total RAM (safer limits)
 try:
     import psutil
     TOTAL_RAM = psutil.virtual_memory().total
-    MEM_BLOCK_SIZE = max(1 * 1024 * 1024, TOTAL_RAM // 100)  # ~1% of total RAM
-except Exception:
-    MEM_BLOCK_SIZE = 5 * 1024 * 1024  # fallback (5MB)
 
-MEM_STEP = 5
+    # smaller chunks (~0.2% RAM instead of 1%)
+    MEM_BLOCK_SIZE = max(1 * 1024 * 1024, TOTAL_RAM // 500)
+
+    # cap total memory usage to 30% of system RAM
+    MAX_MEMORY_USAGE = TOTAL_RAM * 0.3
+except Exception:
+    MEM_BLOCK_SIZE = 2 * 1024 * 1024  # fallback (2MB)
+    MAX_MEMORY_USAGE = 200 * 1024 * 1024  # 200MB cap
+
+MEM_STEP = 2
 
 # =====================================================
 # GLOBAL STATE
@@ -303,9 +309,26 @@ def cpu_stop():
 @app.post("/api/load/memory/add")
 def memory_add():
     global memory_blocks
+
+    current_usage = len(memory_blocks) * MEM_BLOCK_SIZE
+
+    # 🔥 Prevent excessive memory usage
+    if current_usage >= MAX_MEMORY_USAGE:
+        return {
+            "status": "Memory limit reached",
+            "current_mb": current_usage // (1024 * 1024)
+        }
+
     for _ in range(MEM_STEP):
+        if (len(memory_blocks) * MEM_BLOCK_SIZE) >= MAX_MEMORY_USAGE:
+            break
         memory_blocks.append(bytearray(MEM_BLOCK_SIZE))
-    return {"status": "Memory load increased", "block_size_mb": MEM_BLOCK_SIZE // (1024 * 1024)}
+
+    return {
+        "status": "Memory load increased",
+        "block_size_mb": MEM_BLOCK_SIZE // (1024 * 1024),
+        "total_blocks": len(memory_blocks)
+    }
 
 
 @app.post("/api/load/memory/reduce")
