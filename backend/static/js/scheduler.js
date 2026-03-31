@@ -98,16 +98,40 @@ async function runScheduler() {
 
         // ✅ use correct backend response structure
         const schedule = data.schedule || data.processes;
+        const tableData = data.table || schedule;
 
         if (!schedule) {
             console.error("Invalid scheduler response", data);
             return;
         }
 
-        renderTable(schedule);
-        renderGantt(schedule);
-        renderAverages(schedule);
-        startRealtimeExecution(schedule, runBtn);
+        // 🔥 enrich data with arrival, burst, waiting, turnaround (JS-side)
+        const enriched = schedule.map(p => {
+            const original = processes.find(proc => proc.id === p.id) || {};
+
+            const arrival = original.arrival ?? 0;
+            const burst = original.burst ?? (p.end - p.start);
+            const start = p.start;
+            const completion = p.completion ?? p.end;
+
+            const waiting = Math.max(0, start - arrival);
+            const turnaround = completion - arrival;
+
+            return {
+                ...p,
+                arrival,
+                burst,
+                start,
+                completion,
+                waiting,
+                turnaround
+            };
+        });
+
+        renderTable(enriched);
+        renderGantt(enriched);
+        renderAverages(enriched);
+        startRealtimeExecution(enriched, runBtn);
     } catch (err) {
         console.error("Scheduler error:", err);
         if (runBtn) {
@@ -128,22 +152,32 @@ function renderTable(data) {
         return;
     }
 
-    tbody.innerHTML = data.map(p => `
+    tbody.innerHTML = data.map(p => {
+        const completion = p.completion ?? p.end;
+        const arrival = p.arrival ?? '-';
+        const burst = p.burst ?? (p.end - p.start);
+        const waiting = p.waiting ?? '-';
+        const turnaround = p.turnaround ?? (completion !== undefined && arrival !== '-' ? completion - arrival : '-');
+
+        return `
         <tr id="row-${p.id}">
             <td>${p.id}</td>
-            <td>${p.arrival}</td>
-            <td>${p.burst}</td>
+            <td>${arrival}</td>
+            <td>${burst}</td>
             <td>${p.start}</td>
-            <td>${p.completion}</td>
-            <td>${p.waiting}</td>
-            <td>${p.turnaround}</td>
+            <td>${completion}</td>
+            <td>${waiting}</td>
+            <td>${turnaround}</td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 }
 
 function renderAverages(data) {
-    const avgWT = data.reduce((s, p) => s + p.waiting, 0) / data.length;
-    const avgTAT = data.reduce((s, p) => s + p.turnaround, 0) / data.length;
+    if (!data || !data.length) return;
+
+    const avgWT = data.reduce((s, p) => s + (p.waiting ?? 0), 0) / data.length;
+    const avgTAT = data.reduce((s, p) => s + (p.turnaround ?? 0), 0) / data.length;
     const avgDiv = document.getElementById("averages");
     if (avgDiv) {
         avgDiv.innerHTML = `
@@ -162,7 +196,7 @@ function renderGantt(data) {
     gantt.innerHTML = ""; timelineDiv.innerHTML = ""; ganttBlocks = [];
 
     let prevCompletion = 0;
-    const totalTime = data.length ? data[data.length - 1].completion : 1;
+    const totalTime = data.length ? (data[data.length - 1].completion ?? data[data.length - 1].end) : 1;
 
     data.forEach((p, index) => {
         if (p.start > prevCompletion) {
@@ -179,7 +213,8 @@ function renderGantt(data) {
             timelineDiv.appendChild(idleTime);
         }
 
-        const width = (p.burst / totalTime) * 100;
+        const duration = p.burst ?? (p.end - p.start);
+        const width = (duration / totalTime) * 100;
         const block = document.createElement("div");
         block.style.width = width + "%";
         block.style.backgroundColor = getColor(index);
@@ -192,12 +227,12 @@ function renderGantt(data) {
         time.innerText = p.start;
         timelineDiv.appendChild(time);
 
-        prevCompletion = p.completion;
+        prevCompletion = p.completion ?? p.end;
     });
 
     if (data.length) {
         const end = document.createElement("div");
-        end.innerText = data[data.length - 1].completion;
+        end.innerText = data[data.length - 1].completion ?? data[data.length - 1].end;
         timelineDiv.appendChild(end);
     }
 }
