@@ -331,6 +331,7 @@ async def run_scheduler(request: Request):
 
                 data = {
                     "schedule": result,
+                    "table": result,  # 🔥 ensure frontend compatibility
                     "fallback": True
                 }
 
