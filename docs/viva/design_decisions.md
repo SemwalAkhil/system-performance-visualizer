@@ -1,23 +1,23 @@
 # Design Decisions (Viva Notes)
 
 - [Design Decisions (Viva Notes)](#design-decisions-viva-notes)
-  - [Decision: Use Linux instead of Windows](#decision-use-linux-instead-of-windows)
+  - [Q: Why use Linux instead of Windows?](#q-why-use-linux-instead-of-windows)
     - [Explanation](#explanation)
     - [Academic benefit](#academic-benefit)
     - [One-line viva answer](#one-line-viva-answer)
-  - [Decision: Use WSL instead of dual boot](#decision-use-wsl-instead-of-dual-boot)
+  - [Q: Why Use WSL instead of dual boot in development?](#q-why-use-wsl-instead-of-dual-boot-in-development)
     - [Explanation](#explanation-1)
     - [Practical advantage](#practical-advantage)
     - [One-line viva answer](#one-line-viva-answer-1)
-  - [Decision: Use interface-based design](#decision-use-interface-based-design)
+  - [Q: Why use interface-based design?](#q-why-use-interface-based-design)
     - [Explanation](#explanation-2)
     - [Design benefit](#design-benefit)
     - [One-line viva answer](#one-line-viva-answer-2)
-  - [Decision: Separate core logic from GUI](#decision-separate-core-logic-from-gui)
+  - [Q: Why separate core logic from GUI?](#q-why-separate-core-logic-from-gui)
     - [Explanation](#explanation-3)
     - [Software engineering principle](#software-engineering-principle)
     - [One-line viva answer](#one-line-viva-answer-3)
-  - [Decision: Start with memory monitoring before CPU monitoring](#decision-start-with-memory-monitoring-before-cpu-monitoring)
+  - [Q: Why start with memory monitoring before CPU monitoring?](#q-why-start-with-memory-monitoring-before-cpu-monitoring)
     - [Explanation](#explanation-4)
     - [Development advantage](#development-advantage)
     - [One-line viva answer](#one-line-viva-answer-4)
@@ -55,21 +55,16 @@
     - [Explanation](#explanation-5)
     - [Benefits](#benefits)
     - [One-line viva answer](#one-line-viva-answer-20)
-  - [Q: Why was GitHub Codespaces used for development?](#q-why-was-github-codespaces-used-for-development-2)
-    - [Explanation](#explanation-6)
-    - [Benefits](#benefits-1)
-    - [One-line viva answer](#one-line-viva-answer-21)
   - [Q: What is a Dev Container?](#q-what-is-a-dev-container)
-    - [Explanation](#explanation-7)
-    - [One-line viva answer](#one-line-viva-answer-22)
+    - [Explanation](#explanation-6)
+    - [One-line viva answer](#one-line-viva-answer-21)
   - [Q: Why is C++ used for scheduling instead of Python?](#q-why-is-c-used-for-scheduling-instead-of-python)
   - [Q: Why is JSON used for communication?](#q-why-is-json-used-for-communication)
   - [Q: Why not parse JSON using external libraries in C++?](#q-why-not-parse-json-using-external-libraries-in-c)
 
 
-## Decision: Use Linux instead of Windows
-
-**Reason:**  
+## Q: Why use Linux instead of Windows?
+**A:**
 Linux exposes system performance data through the `/proc` filesystem, which aligns closely with operating system concepts taught in the syllabus.
 
 ---
@@ -98,9 +93,8 @@ In contrast, Windows requires complex system APIs that are less aligned with aca
 
 ---
 
-## Decision: Use WSL instead of dual boot
-
-**Reason:**  
+## Q: Why Use WSL instead of dual boot in development?
+**A:**  
 WSL provides a real Linux kernel environment without the risks and overhead of disk partitioning.
 
 ---
@@ -129,9 +123,8 @@ This makes development safer and more convenient.
 
 ---
 
-## Decision: Use interface-based design
-
-**Reason:**  
+## Q: Why use interface-based design?
+**A:**
 Interface-based design allows OS-specific implementations without affecting core logic or GUI.
 
 ---
@@ -160,9 +153,8 @@ This avoids tight coupling between modules.
 
 ---
 
-## Decision: Separate core logic from GUI
-
-**Reason:**  
+## Q: Why separate core logic from GUI?
+**A:**
 Separating core logic from the GUI improves testability and follows the principle of separation of concerns.
 
 ---
@@ -191,9 +183,8 @@ This prevents mixing business logic with presentation logic.
 
 ---
 
-## Decision: Start with memory monitoring before CPU monitoring
-
-**Reason:**  
+## Q: Why start with memory monitoring before CPU monitoring?
+**A:**
 Memory usage is deterministic and can be calculated from a single data source, while CPU usage requires time-based sampling.
 
 ---
@@ -495,47 +486,6 @@ This separation makes the project easier to navigate and maintain.
 ### One-line viva answer
 
 > “Structured directories separate system code, backend services, and documentation.”
-
----
-
-## Q: Why was GitHub Codespaces used for development?
-
-**A:**  
-GitHub Codespaces was used to create a standardized cloud-based development
-environment.
-
----
-
-### Explanation
-
-The project is developed on multiple college computers where system
-configurations cannot be controlled. Installing tools such as Git, WSL,
-compilers, and Python dependencies repeatedly would slow down development.
-
-Codespaces solves this by running the development environment inside a
-preconfigured container hosted on GitHub's cloud infrastructure.
-
-The container automatically installs:
-
-- C++ build tools
-- Python runtime
-- Backend dependencies
-- Required development extensions
-
----
-
-### Benefits
-
-- Same development environment on any computer
-- No local installation required
-- Faster project setup
-- Reduced configuration errors
-
----
-
-### One-line viva answer
-
-> “Codespaces provides a reproducible cloud development environment that eliminates dependency setup across multiple systems.”
 
 ---
 

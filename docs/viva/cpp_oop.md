@@ -361,7 +361,7 @@ This project uses multiple source files:
 
 * `main.cpp`
 * `LinuxSystemMonitor.cpp`
-* (future scheduler and GUI files)
+* `FCFS.cpp`
 
 The same headers may be included indirectly multiple times.
 Header guards ensure:

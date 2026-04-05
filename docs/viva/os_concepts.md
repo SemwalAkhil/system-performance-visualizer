@@ -102,13 +102,13 @@ The project implements the following CPU scheduling algorithms:
 - **FCFS (First Come First Serve)**  
   Processes are executed in the order of arrival.
 
-- **SJF (Shortest Job First)**  
+- **SJF (Shortest Job First) (Planned)**  
   The process with the shortest CPU burst time is selected first.
 
-- **Priority Scheduling**  
+- **Priority Scheduling (Planned)**  
   The process with the highest priority is scheduled first.
 
-- **Round Robin**  
+- **Round Robin (Planned)**  
   Each process is given a fixed time slice in a cyclic order.
 
 ---
@@ -121,7 +121,7 @@ These algorithms represent different scheduling strategies and trade-offs.
 
 ### One-line viva answer
 
-> “FCFS, SJF, Priority Scheduling, and Round Robin are implemented.”
+> “Currently FCFS is implemented and SJF, Priority Scheduling, and Round Robin are planned for future.”
 
 ---
 
