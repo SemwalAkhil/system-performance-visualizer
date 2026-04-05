@@ -111,12 +111,85 @@ system-performance-visualizer
 
 Includes:
 
-* System Architecture
-* Sequence Diagram
-* Data Flow Diagrams (Level 0 & 1)
-* GUI Design
+<details>
+<summary><strong>System Architecture Diagram</strong></summary>
 
-(Already linked in docs)
+<br>
+
+The architecture diagram provides a high-level overview of the layered structure of the application.  
+It shows how the **web client communicates with the FastAPI backend**, which then interacts with the **C++ monitoring engine** to retrieve system statistics from the Linux `/proc` filesystem.
+
+Full source: [View Diagram Source](docs/diagrams/System_Architecture.md)
+
+<p align="center">
+<img src="docs/diagrams/System_Architecture.png" width="750">
+</p>
+
+</details>
+
+
+<details>
+<summary><strong>Sequence Diagram</strong></summary>
+<br>
+
+The sequence diagram illustrates the **runtime interaction between system components** when a user requests system statistics from the dashboard.
+
+It shows how the browser sends a request to the backend API, the backend executes the monitoring engine, and the engine retrieves system metrics from the Linux kernel.
+
+Full source: [View Diagram Source](docs/diagrams/Sequence_Diagram.md)
+
+<p align="center">
+<img src="docs/diagrams/Sequence_Diagram.png" width="750">
+</p>
+
+</details>
+
+<details>
+<summary><strong>Data Flow Diagram (Level 0)</strong></summary>
+
+<br>
+
+The Level 0 Data Flow Diagram (DFD) represents the **entire system as a single process** interacting with external entities such as the user and the Linux kernel.
+
+Full source: [View Diagram Source](docs/diagrams/Data_Flow_Diagram_Level_0.md)
+
+<p align="center">
+<img src="docs/diagrams/Data_Flow_Diagram_Level_0.png" width="700">
+</p>
+
+</details>
+
+<details>
+<summary><strong>Data Flow Diagram (Level 1)</strong></summary>
+
+<br>
+
+The Level 1 DFD expands the system into internal components such as the browser, backend API, monitoring engine, and kernel data source.
+
+This diagram explains how **data flows through the system during a monitoring request**.
+
+Full source: [View Diagram Source](docs/diagrams/Data_Flow_Diagram_Level_1.md)
+
+<p align="center">
+<img src="docs/diagrams/Data_Flow_Diagram_Level_1.png" width="750">
+</p>
+
+</details>
+
+<details>
+<summary><strong>GUI Design Diagram</strong></summary>
+
+<br>
+
+The GUI design diagram represents the planned layout of the web dashboard interface used to visualize system performance statistics.
+
+It illustrates how CPU usage charts, memory statistics, and system controls will be arranged in the user interface.
+
+<p align="center">
+<img src="docs/diagrams/Design_Diagram.png" width="750">
+</p>
+
+</details>
 
 ---
 
