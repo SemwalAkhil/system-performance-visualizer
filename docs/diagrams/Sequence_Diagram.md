@@ -1,4 +1,8 @@
 ```mermaid
+---
+config:
+  theme: redux
+---
 sequenceDiagram
 
 actor User
