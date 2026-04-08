@@ -81,7 +81,10 @@ async function runScheduler() {
         runBtn.innerText = "Running..."
         runBtn.disabled = true;
     }
-
+    // capture process count BEFORE execution
+    const procRows = document.querySelectorAll('#process-inputs .proc-row');
+    totalProcesses = procRows.length;
+    simulationStarted = false; // still not started yet
     const processes = Array.from(arrivals).map((_, i) => ({
         id: i + 1,
         arrival: parseInt(arrivals[i].value),
@@ -209,12 +212,12 @@ function startRealtimeExecution(processes, runBtn) {
             const data = await res.json();
             const current = parseInt(data.current);
 
-            // 🔥 CHECK IF EXECUTION COMPLETED (only after execution actually started)
+            // CHECK IF EXECUTION COMPLETED (only after execution actually started)
             if (data.done && hasStartedExecution) {
                 const label = document.getElementById("current-process");
                 if (label) label.innerText = "Execution Complete";
 
-                // 🔥 CLEAR ALL HIGHLIGHTS ON FINISH
+                // CLEAR ALL HIGHLIGHTS ON FINISH
                 ganttBlocks.forEach(b => b.classList.remove("active"));
                 document.querySelectorAll("#scheduler-body tr").forEach(r => r.classList.remove("active"));
 
@@ -225,6 +228,8 @@ function startRealtimeExecution(processes, runBtn) {
 
                 clearInterval(executionInterval);
                 hasStartedExecution = false;
+                simulationStarted = false;
+                totalProcesses = 0;
                 return;
             }
             
@@ -238,10 +243,11 @@ function startRealtimeExecution(processes, runBtn) {
             // mark that execution has started when first process runs
             if (!isNaN(current)) {
                 hasStartedExecution = true;
+                simulationStarted = true; // ADD THIS LINE
             }
 
             if (isNaN(current)) {
-                // 🔥 CPU is idle (but execution may not be finished)
+                // CPU is idle (but execution may not be finished)
                 if (label) label.innerText = "CPU Idle";
                 return; // DO NOT stop execution here
             }

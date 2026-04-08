@@ -45,15 +45,13 @@ body {
     font-family: 'Barlow', 'Segoe UI', sans-serif;
     background: var(--bg);
     color: var(--text-primary);
-    height: 100vh;
+    min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
 }
 
 /* ─── Main Layout ─── */
 .main {
-    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -99,17 +97,12 @@ body {
 
 /* ─── Content Grid ─── */
 .content {
-    flex: 1;
     padding: 10px 14px;
+    padding-bottom: 30px;
     display: grid;
-    grid-template-rows: auto auto auto;
-    gap: 8px;
-    min-height: calc(100vh - 48px);
-    max-width: 1200px;
+    gap: 10px;
+    max-width: 80%;
     margin: 0 auto;
-    overflow: visible;
-    overflow-x: hidden;
-    width: 100%;
 }
 
 /* ─── Cards ─── */
@@ -159,17 +152,14 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
+    align-items: stretch;
 }
 
 /* ─── Charts ─── */
 canvas {
     width: 100% !important;
-    height: 180px !important;
+    height: auto !important;
     max-height: 220px;
-    margin: 0 auto;
 }
 
 /* ─── Process Input Area ─── */
@@ -422,4 +412,133 @@ hr {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
+}
+/* NEW: Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+}
+
+/* NEW: Stat Cards */
+.stat-card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-card span {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.stat-card h3 {
+    margin: 5px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.content>* {
+    width: 100%;
+}
+
+/* Formula Box */
+.formula-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Section */
+.formula-section h4 {
+    margin: 0 0 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+}
+
+/* Formula Styling */
+.formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    margin: 6px 0;
+    color: var(--text-primary);
+}
+
+/* Fraction styling */
+.fraction {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.fraction .top {
+    display: block;
+    border-bottom: 1px solid var(--text-primary);
+    padding: 0 4px;
+}
+
+.fraction .bottom {
+    display: block;
+    padding: 0 4px;
+}
+
+/* Description */
+.formula-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Center formula */
+.formula.center {
+    text-align: center;
+}
+
+/* Improve spacing */
+.formula-section {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.formula-section:last-child {
+    border-bottom: none;
+}
+
+/* Improve description readability */
+.formula-desc p {
+    margin: 4px 0;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* Code style */
+.formula-desc code {
+    background: var(--surface-subtle);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+}
+
+.formula-section h4 {
+    margin-top: 10px;
+}
+
+.card-body {
+    position: relative;
+}
+
+.chart-container {
+    position: relative;
+    height: 200px;
+}
+.formula-section h4 {
+    margin-top: 12px;
 }

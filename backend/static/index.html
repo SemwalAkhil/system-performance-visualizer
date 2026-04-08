@@ -28,6 +28,8 @@
         <header class="topbar">
             <h1>SYSTEM <span>VISUALIZER</span></h1>
             <div class="topbar-meta">
+                <!-- <div id="cpu-badge">CPU: --%</div>
+                <div id="mem-badge">RAM: --%</div> -->
                 <div id="clock">--:--:--</div>
             </div>
         </header>
@@ -43,7 +45,9 @@
                         <div class="card-title">CPU Usage</div>
                     </div>
                     <div class="card-body">
-                        <canvas id="cpuChart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="cpuChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -52,12 +56,31 @@
                         <div class="card-title">Memory Usage</div>
                     </div>
                     <div class="card-body">
-                        <canvas id="memoryChart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="memoryChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
             </div>
+            <div class="stats-row">
 
+                <div class="stat-card">
+                    <span>CPU</span>
+                    <h3 id="cpu-badge-large">--%</h3>
+                </div>
+
+                <div class="stat-card">
+                    <span>Memory</span>
+                    <h3 id="mem-badge-large">--%</h3>
+                </div>
+
+                <div class="stat-card">
+                    <span>Processes</span>
+                    <h3 id="active-processes">0</h3>
+                </div>
+
+            </div>
             <!-- ROW 2: Load + Scheduler -->
             <div class="middle-row">
 
@@ -79,8 +102,11 @@
                         <button onclick="memoryAdd()">Increase Memory</button>
                         <button onclick="memoryReduce()">Reduce Memory</button>
                         <button onclick="memoryStop()">Stop Memory</button>
-
+                        <p id="load-status" style="margin-top:8px; font-size:12px; color:#64748b;">
+                            No load applied
+                        </p>
                     </div>
+
                 </div>
 
                 <!-- Scheduler Controls -->
@@ -160,12 +186,166 @@
 
             </div>
 
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">System Calculation Logic</div>
+                </div>
+                <div class="card-body formula-box">
+
+                    <!-- CPU -->
+                    <div class="card-body formula-box">
+
+                        <!-- CPU -->
+                        <div class="formula-section">
+                            <h4>CPU Usage</h4>
+
+                            <div class="formula center">
+                                <span class="fraction">
+                                    <span class="top">ΔTotal − ΔIdle</span>
+                                    <span class="bottom">ΔTotal</span>
+                                </span>
+                                × 100
+                            </div>
+
+                            <div class="formula-desc">
+                                <p><b>ΔTotal:</b> Change in total CPU time between two readings from
+                                    <code>/proc/stat</code>.
+                                </p>
+                                <p><b>ΔIdle:</b> Change in idle CPU time (when CPU is not executing tasks).</p>
+                                <p>
+                                    CPU usage is calculated by comparing how much time the CPU was actively working
+                                    versus how much time it remained idle over a short interval.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- MEMORY -->
+                        <div class="formula-section">
+                            <h4>Memory Usage</h4>
+
+                            <div class="formula center">
+                                <span class="fraction">
+                                    <span class="top">MemTotal − MemAvailable</span>
+                                    <span class="bottom">MemTotal</span>
+                                </span>
+                                × 100
+                            </div>
+
+                            <div class="formula-desc">
+                                <p><b>MemTotal:</b> Total physical memory available in the system (from
+                                    <code>/proc/meminfo</code>).
+                                </p>
+                                <p><b>MemAvailable:</b> Memory that can be used by new processes without swapping.</p>
+                                <p>
+                                    Memory usage represents the portion of total memory currently in use,
+                                    considering usable memory instead of just free memory.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="formula-section">
+                            <h4>Load Generation & Graph Behavior</h4>
+
+                            <div class="formula-desc">
+                                <p>
+                                    The spikes observed in CPU and Memory graphs are generated using controlled load
+                                    mechanisms implemented in
+                                    the system.
+                                </p>
+
+                                <p><b>CPU Load Generation:</b></p>
+                                <p>
+                                    CPU load is generated by spawning multiple background processes (using
+                                    <code>yes</code> command).
+                                    These processes continuously consume CPU cycles, increasing CPU utilization and
+                                    causing visible spikes in
+                                    the graph.
+                                </p>
+
+                                <p><b>Memory Load Generation:</b></p>
+                                <p>
+                                    Memory load is created by allocating blocks of memory dynamically in the backend
+                                    using byte arrays.
+                                    As more memory blocks are allocated, memory usage increases, which is reflected as
+                                    spikes in the graph.
+                                </p>
+
+                                <p><b>Graph Behavior:</b></p>
+                                <p>
+                                    The frontend continuously fetches system metrics at regular intervals.
+                                    Any increase or decrease in resource usage due to load generation is immediately
+                                    reflected as spikes or
+                                    drops in the graphs.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="formula-section">
+                            <h4>Process Creation & Execution Logic</h4>
+
+                            <div class="formula-desc">
+
+                                <p>
+                                    Processes used in the CPU scheduling simulation are dynamically created based on
+                                    user input.
+                                    Each process is defined by its <b>Arrival Time (AT)</b> and <b>Burst Time (BT)</b>.
+                                </p>
+
+                                <p><b>Process Creation:</b></p>
+                                <p>
+                                    When the user adds processes in the scheduler panel, the frontend collects the input
+                                    values
+                                    and sends them to the backend via an API request. The backend then organizes these
+                                    processes
+                                    according to the selected scheduling algorithm (currently FCFS).
+                                </p>
+
+                                <p><b>Execution Mechanism:</b></p>
+                                <p>
+                                    The backend simulates execution by processing each task sequentially. Each process
+                                    runs for its
+                                    specified burst time using timed delays, representing actual CPU execution duration.
+                                </p>
+
+                                <p><b>Impact on CPU Usage:</b></p>
+                                <p>
+                                    During execution, artificial CPU load is generated by spawning background processes.
+                                    These processes continuously consume CPU cycles, causing an increase in CPU
+                                    utilization
+                                    which is reflected as spikes in the CPU usage graph.
+                                </p>
+
+                                <p><b>Impact on Memory Usage:</b></p>
+                                <p>
+                                    Memory usage increases as the system allocates memory blocks dynamically during
+                                    execution.
+                                    Each process contributes to memory consumption, and the cumulative allocation
+                                    results in
+                                    visible changes in memory usage on the graph.
+                                </p>
+
+                                <p><b>Real-Time Synchronization:</b></p>
+                                <p>
+                                    The frontend continuously fetches execution status and system metrics from the
+                                    backend.
+                                    This ensures that process execution, CPU load, and memory usage are visualized in
+                                    real-time.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </main>
 
     <!-- JS -->
     <script>
         window.API_BASE = '/api';
+        let simulationStarted = false;
+        let totalProcesses = 0;
     </script>
     <script src="/static/js/charts.js"></script>
     <script src="/static/js/scheduler.js"></script>

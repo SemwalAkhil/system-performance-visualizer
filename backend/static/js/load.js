@@ -8,6 +8,10 @@
 async function callAPI(endpoint) {
     try {
         await fetch(`${API_BASE}${endpoint}`, { method: 'POST' });
+
+        const status = document.getElementById("load-status");
+        if (status) status.innerText = `Last Action: ${endpoint}`;
+
     } catch (err) {
         console.error(`Error calling ${endpoint}:`, err);
     }

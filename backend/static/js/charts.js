@@ -11,6 +11,7 @@ let cpuData = Array(MAX_POINTS).fill(0);
 let memoryData = Array(MAX_POINTS).fill(0);
 let labels = Array(MAX_POINTS).fill("--");
 
+
 // =====================
 // CHART INITIALIZATION
 // =====================
@@ -32,6 +33,7 @@ function createChart(ctx, label, dataArray, color) {
         options: {
             animation: false,
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: { min: 0, max: 100 },
                 x: { ticks: { maxRotation: 0 } }
@@ -65,12 +67,22 @@ function updateStatCards(cpu, memory) {
     const memBadge = document.getElementById('mem-badge');
     if (memBadge) memBadge.textContent = memory.toFixed(1) + '%';
 
-    const loadEl = document.getElementById('system-load');
-    if (loadEl) loadEl.textContent = (cpu / 100).toFixed(2);
-
     const procRows = document.querySelectorAll('#process-inputs .proc-row');
     const activeProcEl = document.getElementById('active-processes');
-    if (activeProcEl) activeProcEl.textContent = procRows.length;
+
+    if (activeProcEl) {
+        if (simulationStarted) {
+            activeProcEl.textContent = totalProcesses;
+        } else {
+            activeProcEl.textContent = 0;
+        }
+    }
+
+    const cpuLarge = document.getElementById('cpu-badge-large');
+    if (cpuLarge) cpuLarge.textContent = cpu.toFixed(1) + '%';
+
+    const memLarge = document.getElementById('mem-badge-large');
+    if (memLarge) memLarge.textContent = memory.toFixed(1) + '%';
 }
 
 // =====================

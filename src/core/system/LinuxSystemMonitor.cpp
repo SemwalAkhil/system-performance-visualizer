@@ -38,7 +38,7 @@ double LinuxSystemMonitor::getMemoryUsage()
     return 100.0 * (memTotal - memAvailable) / memTotal;
 }
 
-// 🔥 FIXED CPU USAGE (DOUBLE READ METHOD)
+// FIXED CPU USAGE (DOUBLE READ METHOD)
 double LinuxSystemMonitor::getCPUUsage()
 {
     auto readCPU = []()
